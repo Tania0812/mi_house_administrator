@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mi_house_administrator/core/routes/routes.dart';
+import 'package:mi_house_administrator/core/theme/light_theme.dart';
 import 'package:mi_house_administrator/core/util/app_state.dart';
 import 'package:mi_house_administrator/screens/auth/landing_screen.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('my_house');
+  runApp(const MyApp());
+}
 
-// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light().copyWith(
-        textTheme: GoogleFonts.openSansTextTheme(),
-        primaryColor: const Color(0xFF3F4FA6),
-      ),
+      theme: CustomLightTheme.getTheme(),
       navigatorKey: appContext.context,
       debugShowCheckedModeBanner: false,
       title: 'Material App',

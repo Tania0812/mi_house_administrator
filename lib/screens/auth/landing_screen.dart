@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LandingScreen extends StatelessWidget {
-  const LandingScreen({Key key}) : super(key: key);
+  const LandingScreen({Key? key}) : super(key: key);
 
   static const route = 'LandingScreen';
 
