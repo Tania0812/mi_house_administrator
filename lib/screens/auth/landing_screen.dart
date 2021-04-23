@@ -16,28 +16,54 @@ class LandingScreen extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             height: double.infinity,
           ),
-          SizedBox(
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             width: size.width * 0.5,
             height: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'WELCOME BACK',
+                  'MI HOUSE',
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Theme.of(context).primaryColor,
                     fontSize: 30,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Login'),
+                Text(
+                  'Holi tania que estas haciendo',
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 18,
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Sign up'),
+                SizedBox(
+                  width: size.width * 0.45,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                    ),
+                    child: const Text('Login1',
+                        style: TextStyle(color: Color(0xFF3F4FA6))),
+                  ),
                 ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: size.width * 0.45,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                    child: const Text('Sign up'),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.010),
               ],
             ),
           ),

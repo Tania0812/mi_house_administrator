@@ -5,6 +5,7 @@ import 'package:mi_house_administrator/core/util/app_state.dart';
 import 'package:mi_house_administrator/screens/auth/landing_screen.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'screens/auth/landing_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
