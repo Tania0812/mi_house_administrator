@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
