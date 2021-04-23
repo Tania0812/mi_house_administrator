@@ -5,6 +5,6 @@ import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   LandingScreen.route: (ctx) => const LandingScreen(),
-  LoginScreen.route: (ctx) => LoginScreen(),
+  LoginScreen.route: (ctx) => const LoginScreen(),
   RegisterScreen.route: (ctx) => const RegisterScreen(),
 };
