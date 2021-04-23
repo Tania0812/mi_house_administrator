@@ -140,7 +140,7 @@ class __LeftSideState extends State<_LeftSide> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: handleOnLogin,
+                onPressed: widget.isLogin ? handleOnLogin : handleOnRegister,
                 style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
                 child: Text(widget.isLogin ? 'Iniciar sesión' : 'Registrarme'),
               ),
@@ -186,6 +186,14 @@ class __LeftSideState extends State<_LeftSide> {
     }
     log('Error');
   }
+
+  void handleOnRegister() {
+    if (_formController.currentState!.validate()) {
+      log('All right');
+      return;
+    }
+    log('Error');
+  }
 }
 
 class _Divider extends StatelessWidget {
@@ -197,7 +205,7 @@ class _Divider extends StatelessWidget {
       children: [
         const Expanded(child: Divider()),
         Container(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: const Text('o', style: TextStyle(color: Colors.grey)),
         ),
