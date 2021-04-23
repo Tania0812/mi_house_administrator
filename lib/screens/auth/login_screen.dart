@@ -1,36 +1,74 @@
 import 'dart:developer';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   static const route = 'LoginScreen';
 
   @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isLogin = true;
+
+  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Row(
+      body: Stack(
         children: [
-          _LeftSide(),
-          const _RightSide(),
+          Positioned(
+            width: size.width,
+            bottom: 0,
+            top: 0,
+            child: const _RightSide(),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeIn,
+            duration: const Duration(milliseconds: 300),
+            left: isLogin ? 0 : size.width * 0.5,
+            width: size.width * 0.5,
+            bottom: 0,
+            top: 0,
+            child: _LeftSide(
+              isLogin: isLogin,
+              onChangeAuthMode: () {
+                setState(() => isLogin = !isLogin);
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class _LeftSide extends StatelessWidget {
+class _LeftSide extends StatefulWidget {
+  const _LeftSide({Key? key, required this.isLogin, required this.onChangeAuthMode})
+      : super(key: key);
+  final VoidCallback onChangeAuthMode;
+  final bool isLogin;
+
+  @override
+  __LeftSideState createState() => __LeftSideState();
+}
+
+class __LeftSideState extends State<_LeftSide> {
   final _formController = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _repeatPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-      width: size.width * 0.5,
       child: Form(
         key: _formController,
         child: Column(
@@ -49,6 +87,18 @@ class _LeftSide extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                'Bienvenido',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             TextFormField(
@@ -72,6 +122,20 @@ class _LeftSide extends StatelessWidget {
                 suffixIcon: Icon(Icons.remove_red_eye),
               ),
             ),
+            if (!widget.isLogin) ...[
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _repeatPasswordController,
+                validator: TextValidators.passwordValidator,
+                obscureText: true,
+                keyboardType: TextInputType.visiblePassword,
+                decoration: const InputDecoration(
+                  labelText: 'Confirma tu contraseña',
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                ),
+              ),
+            ],
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -79,17 +143,18 @@ class _LeftSide extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: handleOnLogin,
                 style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-                child: const Text('Iniciar sesión'),
+                child: Text(widget.isLogin ? 'Iniciar sesión' : 'Registrarme'),
               ),
             ),
             const SizedBox(height: 10),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                '¿Olvidaste tu contraseña?',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+            if (widget.isLogin)
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  '¿Olvidaste tu contraseña?',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
               ),
-            ),
             const SocialNetworkIcons(),
             const SizedBox(height: 10),
             const _Divider(),
@@ -98,12 +163,15 @@ class _LeftSide extends StatelessWidget {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: widget.onChangeAuthMode,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 0.8),
                 ),
-                child: Text('Registrarme', style: TextStyle(color: Colors.grey[800])),
+                child: Text(
+                  !widget.isLogin ? 'Iniciar sesión' : 'Registrarme',
+                  style: TextStyle(color: Colors.grey[800]),
+                ),
               ),
             ),
           ],
@@ -145,13 +213,11 @@ class _RightSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * 0.5,
       height: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/wallpapers/house_wallpaper.jpg'),
+          image: AssetImage('assets/images/wallpapers/house_wallpaper1.jpg'),
           fit: BoxFit.cover,
         ),
       ),
