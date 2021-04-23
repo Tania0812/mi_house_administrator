@@ -6,6 +6,9 @@ class CustomLightTheme {
     return ThemeData.light().copyWith(
       textTheme: GoogleFonts.openSansTextTheme(),
       primaryColor: const Color(0xFF3F4FA6),
+      inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(),
+      ),
     );
   }
 }

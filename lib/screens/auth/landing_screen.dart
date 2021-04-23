@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/screens/auth/login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -44,18 +45,16 @@ class LandingScreen extends StatelessWidget {
                 SizedBox(
                   width: size.width * 0.45,
                   child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                    ),
-                    child: const Text('Login1',
-                        style: TextStyle(color: Color(0xFF3F4FA6))),
+                    onPressed: () => Navigator.of(context).pushNamed(LoginScreen.route),
+                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                    child: Text('Login', style: TextStyle(color: Theme.of(context).primaryColor)),
                   ),
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: size.width * 0.45,
                   child: ElevatedButton(
+                    //TODO: navigate to sign up
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor,
