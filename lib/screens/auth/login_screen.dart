@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
+import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -189,10 +190,9 @@ class __LeftSideState extends State<_LeftSide> {
 
   void handleOnRegister() {
     if (_formController.currentState!.validate()) {
-      log('All right');
+      Navigator.of(context).pushNamed(RegisterScreen.route);
       return;
     }
-    log('Error');
   }
 }
 
