@@ -21,9 +21,14 @@ class AuthProvider extends ChangeNotifier {
       final res = await httpHandler.performPost('/login', login.toJson(), withToken: false);
       token.saveToken(res['token'] as String);
       state = AuthStates.authenticated;
+      notifyListeners();
       return null;
+    } on Failure catch (e) {
+      return e;
     } catch (e) {
       return Failure(message: e.toString());
     }
   }
+
+  //TODO: make Register: function, model
 }

@@ -50,7 +50,9 @@ class __RightSidesState extends State<_RightSide> {
   final _repeatPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
-  final _dateController = TextEditingController();
+  final actualDate = DateTime.now();
+  DateTime? selectedDate;
+
   String? documentType;
   @override
   Widget build(BuildContext context) {
@@ -67,10 +69,10 @@ class __RightSidesState extends State<_RightSide> {
                 Row(
                   children: [
                     SizedBox(
-                      width: size.width * 0.10,
-                      height: 30,
+                      width: 50,
+                      height: 50,
                       child: ElevatedButton(
-                        onPressed: handleOnPop,
+                        onPressed: () => Navigator.of(context).pop(),
                         style: ElevatedButton.styleFrom(
                           primary: Theme.of(context).primaryColor,
                         ),
@@ -116,8 +118,7 @@ class __RightSidesState extends State<_RightSide> {
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                     value: documentType,
-                    decoration:
-                        const InputDecoration(labelText: 'Tipo de Documento'),
+                    decoration: const InputDecoration(labelText: 'Tipo de Documento'),
                     icon: const Icon(Icons.arrow_downward_rounded),
                     onChanged: (String? newValue) {
                       setState(() {
@@ -137,8 +138,7 @@ class __RightSidesState extends State<_RightSide> {
                   validator: TextValidators.documentValidator,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                      labelText: 'Documento',
-                      prefixIcon: Icon(Icons.card_membership_outlined)),
+                      labelText: 'Documento', prefixIcon: Icon(Icons.card_membership_outlined)),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -159,24 +159,25 @@ class __RightSidesState extends State<_RightSide> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  controller: _dateController,
-                  decoration: const InputDecoration(
-                    labelText: 'Fecha de nacimiento',
-                    prefixIcon: Icon(Icons.calendar_today),
-                  ),
+                InkWell(
                   onTap: () async {
-                    DateTime? date = DateTime.now();
-                    FocusScope.of(context).requestFocus(FocusNode());
-
-                    date = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime(2000),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100));
-
-                    _dateController.text = date.toString();
+                    selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: actualDate.subtract(const Duration(days: 6570)),
+                      firstDate: DateTime(1900),
+                      lastDate: actualDate.subtract(const Duration(days: 6570)),
+                    );
+                    //TODO: style container
                   },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(selectedDate?.toIso8601String() ?? 'Fecha de nacimiento'),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -223,8 +224,7 @@ class __RightSidesState extends State<_RightSide> {
                     ),
                     child: Text(
                       'Registrarme',
-                      style:
-                          TextStyle(color: Theme.of(context).primaryColorLight),
+                      style: TextStyle(color: Theme.of(context).primaryColorLight),
                     ),
                   ),
                 ),
@@ -233,11 +233,6 @@ class __RightSidesState extends State<_RightSide> {
             ),
           )),
     );
-  }
-
-  void handleOnPop() {
-    Navigator.of(context).pop();
-    return;
   }
 }
 

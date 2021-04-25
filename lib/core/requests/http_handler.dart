@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:mi_house_administrator/core/constants/api_constants.dart';
+import 'package:mi_house_administrator/core/failure/failure.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
 
 abstract class HttpHandler {
@@ -47,7 +48,7 @@ class HttpHandlerImpl implements HttpHandler {
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       printLogs(body: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
       if (isFailed(res.statusCode)) {
-        throw Exception(decodedRes['message'] as String);
+        throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
     } catch (_) {
@@ -70,7 +71,7 @@ class HttpHandlerImpl implements HttpHandler {
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       printLogs(body: res.body, type: 'DELETE', endpoint: endpoint, statusCode: res.statusCode);
       if (isFailed(res.statusCode)) {
-        throw Exception(decodedRes['message'] as String);
+        throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
     } catch (_) {
@@ -93,7 +94,7 @@ class HttpHandlerImpl implements HttpHandler {
       printLogs(body: res.body, type: 'POST', endpoint: endpoint, statusCode: res.statusCode);
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode)) {
-        throw Exception(decodedRes['message'] as String);
+        throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
     } catch (_) {
@@ -116,7 +117,7 @@ class HttpHandlerImpl implements HttpHandler {
       printLogs(body: res.body, type: 'PUT', endpoint: endpoint, statusCode: res.statusCode);
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode)) {
-        throw Exception(decodedRes['message'] as String);
+        throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
     } catch (_) {
@@ -124,7 +125,7 @@ class HttpHandlerImpl implements HttpHandler {
     }
   }
 
-  bool isFailed(int statusCode) => statusCode < 200 && statusCode >= 300;
+  bool isFailed(int statusCode) => statusCode < 200 || statusCode >= 300;
 
   Map<String, String> getHeaders({required bool withToken}) {
     final headersBase = {
@@ -133,7 +134,7 @@ class HttpHandlerImpl implements HttpHandler {
     };
     if (withToken) {
       if (token.token == null) {
-        throw Exception('El usuario no tiene un Token');
+        throw Failure(message: 'El usuario no tiene un Token');
       }
       headersBase['Bearer-Token'] = token.token!;
     }

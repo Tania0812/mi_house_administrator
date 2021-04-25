@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mi_house_administrator/core/util/app_state.dart';
 
 class CustomModals {
-  final context = appContext.context as BuildContext;
-  Future<void> showErrorModal({
+  Future<void> showError({
     required String message,
     String title = 'Oops ha ocurrido un error',
     VoidCallback? onPressed,
     VoidCallback? confirmButtonAction,
+    required BuildContext context,
   }) {
     return showDialog(
       context: context,
@@ -15,6 +14,7 @@ class CustomModals {
         title: Text(title),
         content: Text(message),
         actions: [
+          //TODO: change colors
           ElevatedButton(
             onPressed: () => onPressed == null ? Navigator.of(context).pop() : onPressed(),
             child: const Text('Salir'),
@@ -34,4 +34,6 @@ class CustomModals {
       ),
     );
   }
+
+  //TODO: crear modal de todo salio bien
 }

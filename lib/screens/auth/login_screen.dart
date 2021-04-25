@@ -191,7 +191,7 @@ class __LeftSideState extends State<_LeftSide> {
       if (res == null) {
         //TODO: Navigate to home
       } else {
-        CustomModals().showErrorModal(message: res.message);
+        CustomModals().showError(message: res.message, context: context);
       }
       return;
     }
@@ -199,6 +199,7 @@ class __LeftSideState extends State<_LeftSide> {
 
   void handleOnRegister() {
     if (_formController.currentState!.validate()) {
+      //TODO: Pass arguments to RegisterScreen
       Navigator.of(context).pushNamed(RegisterScreen.route);
       return;
     }
