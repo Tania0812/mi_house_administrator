@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: appContext.context,
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: HomeScreen.route,
+        initialRoute: LoginScreen.route,
         routes: routes,
       ),
     );

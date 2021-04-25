@@ -6,9 +6,9 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final bool isLarge = size.width > 1024;
-    final width = isLarge ? size.width - 270 : size.width - 170;
+    // final size = MediaQuery.of(context).size;
+    // final bool isLarge = size.width > 1024;
+    // final width = isLarge ? size.width - 270 : size.width - 170;
     // return Row(
     //   children: [
     //     Container(
