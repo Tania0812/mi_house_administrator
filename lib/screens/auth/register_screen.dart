@@ -50,6 +50,7 @@ class __RightSidesState extends State<_RightSide> {
   final _repeatPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
+  final _dateController = TextEditingController();
   String? documentType;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,27 @@ class __RightSidesState extends State<_RightSide> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: size.height * 0.13),
+                SizedBox(height: size.height * 0.08),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.10,
+                      height: 30,
+                      child: ElevatedButton(
+                        onPressed: handleOnPop,
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor,
+                        ),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Theme.of(context).primaryColorLight,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: size.height * 0.05),
                 Row(
                   children: [
                     Icon(
@@ -103,7 +124,7 @@ class __RightSidesState extends State<_RightSide> {
                         documentType = newValue;
                       });
                     },
-                    items: <String>['C.C', 'Pasaporte', 'NIT']
+                    items: <String>['C.C', 'Pasaporte', 'NIT', 'NUIP']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -139,6 +160,23 @@ class __RightSidesState extends State<_RightSide> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  controller: _dateController,
+                  decoration: const InputDecoration(
+                    labelText: 'Fecha de nacimiento',
+                    prefixIcon: Icon(Icons.calendar_today),
+                  ),
+                  onTap: () async {
+                    DateTime? date = DateTime.now();
+                    FocusScope.of(context).requestFocus(FocusNode());
+
+                    date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime(2000),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100));
+
+                    _dateController.text = date.toString();
+                  },
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -174,10 +212,32 @@ class __RightSidesState extends State<_RightSide> {
                     suffixIcon: Icon(Icons.remove_red_eye),
                   ),
                 ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                    ),
+                    child: Text(
+                      'Registrarme',
+                      style:
+                          TextStyle(color: Theme.of(context).primaryColorLight),
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.08),
               ],
-            ),//TODO: RegisterButton
+            ),
           )),
     );
+  }
+
+  void handleOnPop() {
+    Navigator.of(context).pop();
+    return;
   }
 }
 
