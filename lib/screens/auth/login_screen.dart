@@ -1,8 +1,11 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
+import 'package:mi_house_administrator/features/auth/models/login_model.dart';
 import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -180,12 +183,18 @@ class __LeftSideState extends State<_LeftSide> {
     );
   }
 
-  void handleOnLogin() {
+  Future<void> handleOnLogin() async {
     if (_formController.currentState!.validate()) {
-      log('All right');
+      final res = await Provider.of<AuthProvider>(context, listen: false).login(
+        LoginModel(email: _emailController.text.trim(), password: _passwordController.text.trim()),
+      );
+      if (res == null) {
+        //TODO: Navigate to home
+      } else {
+        CustomModals().showErrorModal(message: res.message);
+      }
       return;
     }
-    log('Error');
   }
 
   void handleOnRegister() {

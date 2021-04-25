@@ -22,8 +22,8 @@ class TextValidators {
     if (value!.isEmpty) {
       return 'Ingresa tu contraseña';
     }
-    if (value.length < 8) {
-      return 'La contraseña debe tener 8 o mas caracteres';
+    if (value.length < 6) {
+      return 'La contraseña debe tener 6 o mas caracteres';
     }
     return null;
   }
