@@ -70,9 +70,9 @@ class UsersTab extends StatelessWidget {
                   const Text('Activo'),
                   Row(
                     children: [
-                      IconButton(icon: Icon(Icons.add), onPressed: () {}),
-                      IconButton(icon: Icon(Icons.edit), onPressed: () {}),
-                      IconButton(icon: Icon(Icons.delete), onPressed: () {}),
+                      IconButton(icon: const Icon(Icons.add), onPressed: () {}),
+                      IconButton(icon: const Icon(Icons.edit), onPressed: () {}),
+                      IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
                     ],
                   ),
                 ],

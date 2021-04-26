@@ -18,7 +18,7 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
 
   //TODO: CHANGE
-  AuthStates state = AuthStates.authenticated;
+  AuthStates state = AuthStates.notAuthenticated;
   AuthProvider({required this.token, required this.httpHandler});
 
   Future<Failure?> login(LoginModel login) async {
