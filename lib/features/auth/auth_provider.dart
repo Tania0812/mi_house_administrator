@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/failure/failure.dart';
 import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
+import 'package:mi_house_administrator/features/auth/models/auth_model.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
 
 enum AuthStates {
@@ -16,6 +17,7 @@ class AuthProvider extends ChangeNotifier {
   final HttpHandler httpHandler;
   final Token token;
   bool isLoading = false;
+  AuthModel? auth;
 
   //TODO: CHANGE
   AuthStates state = AuthStates.notAuthenticated;
@@ -24,7 +26,8 @@ class AuthProvider extends ChangeNotifier {
   Future<Failure?> login(LoginModel login) async {
     try {
       final res = await httpHandler.performPost('/login', login.toJson(), withToken: false);
-      token.saveToken(res['token'] as String);
+      auth = AuthModel.fromJson(res);
+      token.saveToken(auth!.token);
       state = AuthStates.authenticated;
       notifyListeners();
       return null;
