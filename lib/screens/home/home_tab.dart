@@ -1,5 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/util/date_utils.dart';
+import 'package:mi_house_administrator/widgets/buttons/charts/chart_card.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -9,22 +11,19 @@ class HomeTab extends StatelessWidget {
     // final size = MediaQuery.of(context).size;
     // final bool isLarge = size.width > 1024;
     // final width = isLarge ? size.width - 270 : size.width - 170;
-    // return Row(
-    //   children: [
-    //     Container(
-    //       color: Colors.blueGrey,
-    //       width: width * 0.65,
-    //     ),
-    //     Container(
-    //       color: Colors.red,
-    //       width: width * 0.35,
-    //     ),
-    //   ],
-    // );
+
     return Column(
-      children: const [
-        _AppBar(),
-        PresentationCard(),
+      children: [
+        const _AppBar(),
+        const PresentationCard(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            ChartCard(color: Color(0xFFE68A8A), title: '# RESIDENTES'),
+            ChartCard(color: Color(0xFF78C7C2), title: '# ALERTAS'),
+            ChartCard(color: Color(0xFF93A5E4), title: '# RESERVAS'),
+          ],
+        ),
       ],
     );
   }

@@ -29,17 +29,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
-              width: isLarge ? 200 : 100,
+              width: isLarge ? 190 : 100,
               height: size.height,
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
               child: Column(
                 children: [
+                  const Icon(Icons.home, color: Colors.white, size: 60),
                   Text(
                     isLarge ? 'Mi House' : 'Mi \nHouse',
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                   ),
                   const Spacer(),
@@ -68,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: IndexedStack(
                 index: homeUiProv.selectedIndex,
-                children:const  [
+                children: const [
                   HomeTab(),
                   Text('2'),
                   Text('3'),
@@ -109,7 +110,7 @@ class DrawerButton extends StatelessWidget {
     return InkWell(
       onTap: onTap ?? () => homeUIProv.onChangeSelectedItem(index),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 250),
         margin: const EdgeInsets.symmetric(vertical: 10),
         height: isLarge ? 50 : 50,
         width: isLarge ? 150 : 50,
@@ -123,12 +124,12 @@ class DrawerButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: isLarge ? MainAxisAlignment.start : MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white),
+            Icon(icon, color: Colors.white, size: 30),
             if (isLarge) ...[
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               Text(
                 text,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white, fontSize: 15),
               )
             ]
           ],
