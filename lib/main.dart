@@ -9,8 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mi_house_administrator/dependency_injection.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
-import 'package:mi_house_administrator/screens/auth/login_screen.dart';
-import 'package:mi_house_administrator/screens/home/home_screen.dart';
+import 'package:mi_house_administrator/screens/auth/index_screen.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: appContext.context,
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: LoginScreen.route,
+        initialRoute: IndexScreen.route,
         routes: routes,
       ),
     );

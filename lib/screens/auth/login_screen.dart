@@ -65,6 +65,7 @@ class __LeftSideState extends State<_LeftSide> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -143,11 +144,13 @@ class __LeftSideState extends State<_LeftSide> {
             SizedBox(
               width: double.infinity,
               height: 50,
-              child: ElevatedButton(
-                onPressed: widget.isLogin ? handleOnLogin : handleOnRegister,
-                style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-                child: Text(widget.isLogin ? 'Iniciar sesión' : 'Registrarme'),
-              ),
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ElevatedButton(
+                      onPressed: widget.isLogin ? handleOnLogin : handleOnRegister,
+                      style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+                      child: Text(widget.isLogin ? 'Iniciar sesión' : 'Registrarme'),
+                    ),
             ),
             const SizedBox(height: 10),
             if (widget.isLogin)
@@ -185,12 +188,12 @@ class __LeftSideState extends State<_LeftSide> {
 
   Future<void> handleOnLogin() async {
     if (_formController.currentState!.validate()) {
+      setState(() => isLoading = true);
       final res = await Provider.of<AuthProvider>(context, listen: false).login(
         LoginModel(email: _emailController.text.trim(), password: _passwordController.text.trim()),
       );
-      if (res == null) {
-        //TODO: Navigate to home
-      } else {
+      setState(() => isLoading = false);
+      if (res != null) {
         CustomModals().showError(message: res.message, context: context);
       }
       return;
