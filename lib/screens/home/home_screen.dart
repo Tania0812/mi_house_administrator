@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/home/home_tab.dart';
+import 'package:mi_house_administrator/screens/home/users_tab.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 index: homeUiProv.selectedIndex,
                 children: const [
                   HomeTab(),
-                  Text('2'),
+                  UsersTab(),
                   Text('3'),
                   Text('4'),
                   Text('5'),

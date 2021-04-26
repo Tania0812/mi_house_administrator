@@ -1,20 +1,21 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/util/date_utils.dart';
-import 'package:mi_house_administrator/widgets/buttons/charts/chart_card.dart';
+import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
+import 'package:mi_house_administrator/widgets/charts/chart_card.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    // final bool isLarge = size.width > 1024;
-    // final width = isLarge ? size.width - 270 : size.width - 170;
+    final size = MediaQuery.of(context).size;
+    final bool isLarge = size.width > 1024;
+    final width = isLarge ? size.width - 270 : size.width - 170;
 
-    return Column(
+    return ListView(
       children: [
-        const _AppBar(),
+        //TODO: add row with right lateral data
+        const CustomAppBar(),
         const PresentationCard(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,6 +23,31 @@ class HomeTab extends StatelessWidget {
             ChartCard(color: Color(0xFFE68A8A), title: '# RESIDENTES'),
             ChartCard(color: Color(0xFF78C7C2), title: '# ALERTAS'),
             ChartCard(color: Color(0xFF93A5E4), title: '# RESERVAS'),
+          ],
+        ),
+        const SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 320,
+              width: width * 0.49,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [BoxShadow(color: Colors.grey[300]!, spreadRadius: 1)],
+              ),
+              //TODO: add sheduled events and my plans done
+            ),
+            Container(
+              height: 320,
+              width: width * 0.49,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [BoxShadow(color: Colors.grey[300]!, spreadRadius: 1)],
+              ),
+            ),
           ],
         ),
       ],
@@ -42,7 +68,7 @@ class PresentationCard extends StatelessWidget {
       width: width,
       height: 220,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 2)],
         gradient: LinearGradient(
           colors: [
@@ -61,8 +87,8 @@ class PresentationCard extends StatelessWidget {
             bottom: 0,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+                topRight: Radius.circular(15),
+                bottomRight: Radius.circular(15),
               ),
               child: Image.asset('assets/images/ilustrations/home_ilustration.png'),
             ),
@@ -109,72 +135,6 @@ class PresentationCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _AppBar extends StatelessWidget {
-  const _AppBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final bool isLarge = size.width > 1024;
-    final width = isLarge ? size.width - 270 : size.width - 170;
-    return Row(
-      children: [
-        Container(
-          width: width * 0.4,
-          height: 45,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 1)],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Busca por residente, eventos, etc.',
-                style: TextStyle(color: Colors.grey, fontSize: 13),
-              ),
-              Icon(Icons.search, color: Theme.of(context).primaryColor),
-            ],
-          ),
-        ),
-        const Spacer(),
-        const IconWithBox(icon: Icons.notifications),
-        const SizedBox(width: 8),
-        const IconWithBox(icon: Icons.settings),
-      ],
-    );
-  }
-}
-
-class IconWithBox extends StatelessWidget {
-  const IconWithBox({Key? key, required this.icon}) : super(key: key);
-
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      height: 45,
-      width: 45,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5))],
-      ),
-      child: Icon(
-        icon,
-        color: Theme.of(context).primaryColor,
-        size: 30,
       ),
     );
   }
