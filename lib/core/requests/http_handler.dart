@@ -46,7 +46,7 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
       );
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      printLogs(body: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
+      printLogs(response: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
       if (isFailed(res.statusCode)) {
         throw Failure(message: decodedRes['message'] as String);
       }
@@ -69,7 +69,12 @@ class HttpHandlerImpl implements HttpHandler {
         body: json.encode(body),
       );
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      printLogs(body: res.body, type: 'DELETE', endpoint: endpoint, statusCode: res.statusCode);
+      printLogs(
+          response: res.body,
+          type: 'DELETE',
+          endpoint: endpoint,
+          statusCode: res.statusCode,
+          body: body.toString());
       if (isFailed(res.statusCode)) {
         throw Failure(message: decodedRes['message'] as String);
       }
@@ -91,7 +96,12 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
         body: json.encode(body),
       );
-      printLogs(body: res.body, type: 'POST', endpoint: endpoint, statusCode: res.statusCode);
+      printLogs(
+          response: res.body,
+          type: 'POST',
+          endpoint: endpoint,
+          statusCode: res.statusCode,
+          body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode)) {
         throw Failure(message: decodedRes['message'] as String);
@@ -114,7 +124,12 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
         body: json.encode(body),
       );
-      printLogs(body: res.body, type: 'PUT', endpoint: endpoint, statusCode: res.statusCode);
+      printLogs(
+          response: res.body,
+          type: 'PUT',
+          endpoint: endpoint,
+          statusCode: res.statusCode,
+          body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode)) {
         throw Failure(message: decodedRes['message'] as String);
@@ -143,9 +158,10 @@ class HttpHandlerImpl implements HttpHandler {
 
   void printLogs({
     required int statusCode,
-    required String body,
+    required String response,
     required String endpoint,
     required String type,
+    String? body,
   }) {
     log('#########################################################');
     log('API RESPONSE');
@@ -154,7 +170,8 @@ class HttpHandlerImpl implements HttpHandler {
     log('Token: ${token.token ?? "NO TOKEN"}');
     log('For: $endpoint');
     log('Statuscode: $statusCode');
-    log('Response: $body');
+    log('Body: $body');
+    log('Response: $response');
     log('#########################################################');
   }
 }
