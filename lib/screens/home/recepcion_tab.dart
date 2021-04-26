@@ -3,8 +3,8 @@ import 'package:mi_house_administrator/core/util/responsive.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/text/text.dart';
 
-class UsersTab extends StatelessWidget {
-  const UsersTab({Key? key}) : super(key: key);
+class RecepcionTab extends StatelessWidget {
+  const RecepcionTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class UsersTab extends StatelessWidget {
           child: Row(
             children: [
               const Text(
-                'Residentes',
+                'Recepción',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
               ),
               const Spacer(),
@@ -28,7 +28,7 @@ class UsersTab extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
-                  child: const Text('+ Nuevo residente'),
+                  child: const Text('+ Nuevo recepción'),
                 ),
               ),
             ],
@@ -38,7 +38,6 @@ class UsersTab extends StatelessWidget {
           child: Table(
             columnWidths: const {
               0: FractionColumnWidth(0.05),
-              3: FractionColumnWidth(0.06),
               7: FractionColumnWidth(0.16),
             },
             children: [
@@ -47,14 +46,30 @@ class UsersTab extends StatelessWidget {
                   border: Border(bottom: BorderSide(color: Colors.grey)),
                 ),
                 children: [
-                  CustomText(text: '#', isTitle: true),
-                  CustomText(text: 'Nombres', isTitle: true),
-                  CustomText(text: 'Apellidos', isTitle: true),
-                  CustomText(text: 'Torre', isTitle: true),
-                  CustomText(text: 'Apartamento', isTitle: true),
-                  CustomText(text: 'Telefono', isTitle: true),
-                  CustomText(text: 'Estado', isTitle: true),
-                  CustomText(text: '', isTitle: true),
+                  CustomText(
+                    text: '#',
+                    isTitle: true,
+                  ),
+                  CustomText(
+                    text: 'Nombres',
+                    isTitle: true,
+                  ),
+                  CustomText(
+                    text: 'Apellidos',
+                    isTitle: true,
+                  ),
+                  CustomText(
+                    text: 'Cargo',
+                    isTitle: true,
+                  ),
+                  CustomText(
+                    text: 'Estado',
+                    isTitle: true,
+                  ),
+                  CustomText(
+                    text: '',
+                    isTitle: true,
+                  ),
                 ],
               ),
               //TODO: add style and load data from API
@@ -63,8 +78,6 @@ class UsersTab extends StatelessWidget {
                   const CustomText(text: '0'),
                   const CustomText(text: 'Maria Jose'),
                   const CustomText(text: 'Bolaños Garcia'),
-                  const CustomText(text: '1'),
-                  const CustomText(text: '205'),
                   const CustomText(text: '300 745 1247'),
                   const CustomText(text: 'Activo'),
                   Row(
@@ -93,8 +106,6 @@ class UsersTab extends StatelessWidget {
                   const CustomText(text: '0'),
                   const CustomText(text: 'Maria Jose'),
                   const CustomText(text: 'Bolaños Garcia'),
-                  const CustomText(text: '1'),
-                  const CustomText(text: '205'),
                   const CustomText(text: '300 745 1247'),
                   const CustomText(text: 'Activo'),
                   Row(
@@ -123,98 +134,6 @@ class UsersTab extends StatelessWidget {
                   const CustomText(text: '0'),
                   const CustomText(text: 'Maria Jose'),
                   const CustomText(text: 'Bolaños Garcia'),
-                  const CustomText(text: '1'),
-                  const CustomText(text: '205'),
-                  const CustomText(text: '300 745 1247'),
-                  const CustomText(text: 'Activo'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  const CustomText(text: '0'),
-                  const CustomText(text: 'Maria Jose'),
-                  const CustomText(text: 'Bolaños Garcia'),
-                  const CustomText(text: '1'),
-                  const CustomText(text: '205'),
-                  const CustomText(text: '300 745 1247'),
-                  const CustomText(text: 'Activo'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  const CustomText(text: '0'),
-                  const CustomText(text: 'Maria Jose'),
-                  const CustomText(text: 'Bolaños Garcia'),
-                  const CustomText(text: '1'),
-                  const CustomText(text: '205'),
-                  const CustomText(text: '300 745 1247'),
-                  const CustomText(text: 'Activo'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {},
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              TableRow(
-                children: [
-                  const CustomText(text: '0'),
-                  const CustomText(text: 'Maria Jose'),
-                  const CustomText(text: 'Bolaños Garcia'),
-                  const CustomText(text: '1'),
-                  const CustomText(text: '205'),
                   const CustomText(text: '300 745 1247'),
                   const CustomText(text: 'Activo'),
                   Row(

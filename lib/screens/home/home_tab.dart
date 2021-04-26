@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/util/date_utils.dart';
 import 'package:mi_house_administrator/core/util/responsive.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/charts/chart_card.dart';
+import 'package:provider/provider.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -115,7 +117,7 @@ class PresentationCard extends StatelessWidget {
             bottom: 50,
             left: 30,
             child: Text(
-              '¡Buenos ${CustomDateUtils.getGreeting()}, Paola!',
+              '¡Buenos ${CustomDateUtils.getGreeting()}, ${Provider.of<AuthProvider>(context).auth!.nombres.split(" ")[0]}!',
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
