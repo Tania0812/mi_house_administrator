@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/util/date_utils.dart';
+import 'package:mi_house_administrator/core/util/responsive.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/charts/chart_card.dart';
 
@@ -8,9 +9,7 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final bool isLarge = size.width > 1024;
-    final width = isLarge ? size.width - 270 : size.width - 170;
+    final width = Responsive.homeWidth();
 
     return ListView(
       children: [
@@ -60,9 +59,7 @@ class PresentationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final bool isLarge = size.width > 1024;
-    final width = isLarge ? size.width - 270 : size.width - 170;
+    final width = Responsive.homeWidth();
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 30),
       width: width,
