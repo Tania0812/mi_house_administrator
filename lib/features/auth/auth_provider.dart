@@ -19,7 +19,6 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
   AuthModel? auth;
 
-  //TODO: CHANGE
   AuthStates state = AuthStates.notAuthenticated;
   AuthProvider({required this.token, required this.httpHandler});
 

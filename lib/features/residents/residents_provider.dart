@@ -6,11 +6,13 @@ import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
 import 'package:mi_house_administrator/features/residents/models/residents_model.dart';
 import 'package:mi_house_administrator/features/residents/models/residents_response.dart';
+import 'package:mi_house_administrator/features/stats/models/stats_by_month_model.dart';
 
 class ResidentsProvider extends ChangeNotifier {
   final HttpHandler httpHandler;
   final Token token;
   ResidentsResponse? residentsResponse;
+  StatsByMonthResponse? statsByMonth;
 
   ResidentsProvider({required this.httpHandler, required this.token});
 
@@ -36,6 +38,20 @@ class ResidentsProvider extends ChangeNotifier {
     try {
       final res = await httpHandler.performGet('/residentes/lista');
       residentsResponse = ResidentsResponse.fromJson(res);
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
+  Future<Failure?> fetchResidentsStats() async {
+    try {
+      final res = await httpHandler.performGet('/residentes/por_mes');
+      statsByMonth = StatsByMonthResponse.fromJson(res);
       return null;
     } on Failure catch (e) {
       return e;

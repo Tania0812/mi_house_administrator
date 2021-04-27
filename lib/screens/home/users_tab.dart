@@ -92,7 +92,9 @@ class UsersTab extends StatelessWidget {
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      
+                                    },
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ],
