@@ -50,6 +50,7 @@ class _RecepcionFormState extends State<RecepcionForm> {
   final _documentController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final _nombreConjuntoController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatedPasswordController = TextEditingController();
@@ -136,6 +137,12 @@ class _RecepcionFormState extends State<RecepcionForm> {
             ),
             const SizedBox(height: 20),
             TextFormField(
+              decoration: const InputDecoration(labelText: 'Nombre del conjunto'),
+              controller: _nombreConjuntoController,
+              validator: TextValidators.textMandatoryValidator,
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
               decoration: const InputDecoration(labelText: 'Email'),
               controller: _emailController,
               validator: TextValidators.emailValidator,
@@ -173,6 +180,7 @@ class _RecepcionFormState extends State<RecepcionForm> {
   Future<void> handleOnCreate() async {
     if (_formKey.currentState!.validate() && _dateTime != null && _documentType != null) {
       final recepcionModel = RecepcionModel(
+        nombreConjunto: _nombreConjuntoController.text.trim(),
         apellidos: _lastNameController.text.trim(),
         documento: _documentController.text.trim(),
         email: _emailController.text.trim(),

@@ -51,6 +51,7 @@ class _ResidentFormState extends State<ResidentForm> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _nombreConjuntoController = TextEditingController();
   final _blockController = TextEditingController();
   final _appartmenmtController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -138,6 +139,12 @@ class _ResidentFormState extends State<ResidentForm> {
             ),
             const SizedBox(height: 20),
             TextFormField(
+              decoration: const InputDecoration(labelText: 'Nombre del conjunto'),
+              controller: _nombreConjuntoController,
+              validator: TextValidators.textMandatoryValidator,
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
               decoration: const InputDecoration(labelText: 'Email'),
               controller: _emailController,
               validator: TextValidators.emailValidator,
@@ -184,6 +191,7 @@ class _ResidentFormState extends State<ResidentForm> {
   Future<void> handleOnCreate() async {
     if (_formKey.currentState!.validate() && _dateTime != null && _documentType != null) {
       final residentsModel = ResidentsModel(
+        nombreConjunto: _nombreConjuntoController.text.trim(),
         apellidos: _lastNameController.text.trim(),
         apto: _appartmenmtController.text.trim(),
         bloque: _blockController.text.trim(),

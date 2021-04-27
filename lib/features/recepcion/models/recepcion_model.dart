@@ -9,11 +9,13 @@ class RecepcionModel {
   final String nombres;
   final String apellidos;
   final String fechaNac;
+  final String nombreConjunto;
   final String email;
   final String password;
   final String repeatPassword;
 
   RecepcionModel({
+    required this.nombreConjunto,
     required this.tipoDoc,
     required this.documento,
     required this.nombres,

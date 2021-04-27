@@ -151,7 +151,7 @@ class HttpHandlerImpl implements HttpHandler {
       if (token.token == null) {
         throw Failure(message: 'El usuario no tiene un Token');
       }
-      headersBase['Bearer-Token'] = token.token!;
+      headersBase['Authorization'] = 'Bearer ${token.token!}';
     }
     return headersBase;
   }

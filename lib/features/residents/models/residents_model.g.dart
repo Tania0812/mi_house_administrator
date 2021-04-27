@@ -8,6 +8,7 @@ part of 'residents_model.dart';
 
 ResidentsModel _$ResidentsModelFromJson(Map<String, dynamic> json) {
   return ResidentsModel(
+    nombreConjunto: json['nombreConjunto'] as String,
     apto: json['apto'] as String,
     bloque: json['bloque'] as String,
     tipoDoc: json['tipoDoc'] as String,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$ResidentsModelToJson(ResidentsModel instance) =>
       'nombres': instance.nombres,
       'apellidos': instance.apellidos,
       'fechaNac': instance.fechaNac,
+      'nombreConjunto': instance.nombreConjunto,
       'email': instance.email,
       'password': instance.password,
       'repeatPassword': instance.repeatPassword,

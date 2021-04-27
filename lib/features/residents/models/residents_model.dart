@@ -9,6 +9,7 @@ class ResidentsModel {
   final String nombres;
   final String apellidos;
   final String fechaNac;
+  final String nombreConjunto;
   final String email;
   final String password;
   final String repeatPassword;
@@ -16,6 +17,7 @@ class ResidentsModel {
   final String bloque;
 
   ResidentsModel({
+    required this.nombreConjunto,
     required this.apto,
     required this.bloque,
     required this.tipoDoc,

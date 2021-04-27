@@ -14,13 +14,11 @@ class RecepcionProvider extends ChangeNotifier {
 
   Future<Failure?> registerResident(RecepcionModel recepcionModel) async {
     try {
-      final res = await httpHandler.performPost(
+      await httpHandler.performPost(
         '/registro/recepcion',
         recepcionModel.toJson(),
         withToken: false,
       );
-      //TODO: Check response
-      print(res);
       return null;
     } on Failure catch (e) {
       return e;
