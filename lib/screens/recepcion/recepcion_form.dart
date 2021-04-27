@@ -192,7 +192,7 @@ class _RecepcionFormState extends State<RecepcionForm> {
       );
 
       final res = await Provider.of<RecepcionProvider>(context, listen: false)
-          .registerResident(recepcionModel);
+          .registerRecepcion(recepcionModel);
       if (res == null) {
         await CustomModals().showError(
           message: 'Recepcion registrado exitosamente',
