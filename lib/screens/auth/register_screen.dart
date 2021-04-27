@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
+import 'package:mi_house_administrator/features/auth/models/register_model.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -51,7 +55,9 @@ class __RightSidesState extends State<_RightSide> {
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
   final actualDate = DateTime.now();
+  final _dateController = TextEditingController();
   DateTime? selectedDate;
+  bool isLoading = false;
 
   String? documentType;
   @override
@@ -159,25 +165,24 @@ class __RightSidesState extends State<_RightSide> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                InkWell(
+                TextFormField(
+                  controller: _dateController,
+                  decoration: const InputDecoration(
+                    labelText: "Fecha de Nacimiento",
+                    prefixIcon: Icon(Icons.calendar_today),
+                  ),
                   onTap: () async {
-                    selectedDate = await showDatePicker(
+                    DateTime? date;
+                    date = await showDatePicker(
                       context: context,
                       initialDate: actualDate.subtract(const Duration(days: 6570)),
                       firstDate: DateTime(1900),
                       lastDate: actualDate.subtract(const Duration(days: 6570)),
                     );
-                    //TODO: style container
+                    if (date != null) {
+                      _dateController.text = date.toIso8601String();
+                    }
                   },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(selectedDate?.toIso8601String() ?? 'Fecha de nacimiento'),
-                  ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -218,7 +223,7 @@ class __RightSidesState extends State<_RightSide> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: handleOnRegister,
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor,
                     ),
@@ -233,6 +238,27 @@ class __RightSidesState extends State<_RightSide> {
             ),
           )),
     );
+  }
+
+  Future<void> handleOnRegister() async {
+    if (_formController.currentState!.validate()) {
+      setState(() => isLoading = true);
+      final res = await Provider.of<AuthProvider>(context, listen: false).register(
+        RegisterModel(
+          document: _documentController.text.trim(),
+          name: _nameController.text.trim(),
+          lastname: _lastnameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          repeatpassword: _repeatPasswordController.text.trim(),
+        ),
+      );
+      setState(() => isLoading = false);
+      if (res != null) {
+        CustomModals().showError(message: res.message, context: context);
+      }
+      return;
+    }
   }
 }
 
