@@ -3,23 +3,20 @@ import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
+import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
   static const route = 'LoginScreen';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool isLogin = true;
-
-  @override
   Widget build(BuildContext context) {
+    final uiProv = Provider.of<HomeUiProvider>(context);
+    final isLogin = uiProv.isLogin;
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -40,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: _LeftSide(
               isLogin: isLogin,
               onChangeAuthMode: () {
-                setState(() => isLogin = !isLogin);
+                uiProv.onChangeIsLogin(newValue: !isLogin);
               },
             ),
           ),
@@ -48,9 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  // void _goLogin(){
-  //   setState(() => isLogin= true);
-  // }
 }
 
 class _LeftSide extends StatefulWidget {
@@ -133,7 +127,8 @@ class __LeftSideState extends State<_LeftSide> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _repeatPasswordController,
-                validator:(_repeatPasswordController)=>TextValidators.confirmPassword(_repeatPasswordController, _passwordController.text),
+                validator: (_repeatPasswordController) => TextValidators.confirmPassword(
+                    _repeatPasswordController, _passwordController.text),
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: const InputDecoration(

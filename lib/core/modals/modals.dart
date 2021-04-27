@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CustomModals {
   Future<void> showError({
     required String message,
@@ -50,7 +49,7 @@ class CustomModals {
 
   Future<void> showWellDone({
     required String message,
-    String title = 'Registro Exitoso!',
+    String title = '¡Felicitaciones!',
     VoidCallback? onPressed,
     VoidCallback? confirmButtonAction,
     required BuildContext context,
@@ -71,13 +70,8 @@ class CustomModals {
         content: Text(message),
         actions: [
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).primaryColor,
-            ),
-            onPressed: onPressed ?? (){
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
+            style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+            onPressed: onPressed ?? () => Navigator.of(context).pop(),
             child: const Text('Ok'),
           ),
           if (confirmButtonAction != null)

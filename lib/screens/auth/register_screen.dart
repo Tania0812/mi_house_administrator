@@ -3,6 +3,7 @@ import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/auth/models/register_model.dart';
+import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -209,7 +210,8 @@ class __RightSidesState extends State<_RightSide> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _repeatPasswordController,
-                  validator: (_repeatPassword)=>TextValidators.confirmPassword(_repeatPassword, _passwordController.text),
+                  validator: (_repeatPassword) =>
+                      TextValidators.confirmPassword(_repeatPassword, _passwordController.text),
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: const InputDecoration(
@@ -254,7 +256,17 @@ class __RightSidesState extends State<_RightSide> {
         ),
       );
       setState(() => isLoading = false);
-      if (res != null) {//TODO:cambiar al final
+      CustomModals().showWellDone(
+        message: 'Registro Exitoso!',
+        context: context,
+        onPressed: () {
+          Provider.of<HomeUiProvider>(context, listen: false).onChangeIsLogin(newValue: false);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
+      );
+      if (res != null) {
+        //TODO:cambiar al final
         CustomModals().showError(message: res.message, context: context);
       }
       return;

@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 
 class HomeUiProvider extends ChangeNotifier {
   int selectedIndex = 0;
+  bool isLogin = true;
 
   void onChangeSelectedItem(int index) {
     selectedIndex = index;
+    notifyListeners();
+  }
+
+  void onChangeIsLogin({required bool newValue}) {
+    isLogin = newValue;
     notifyListeners();
   }
 }
