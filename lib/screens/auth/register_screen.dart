@@ -209,7 +209,7 @@ class __RightSidesState extends State<_RightSide> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _repeatPasswordController,
-                  validator: TextValidators.passwordValidator,
+                  validator: (_repeatPassword)=>TextValidators.confirmPassword(_repeatPassword, _passwordController.text),
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: const InputDecoration(
@@ -254,7 +254,7 @@ class __RightSidesState extends State<_RightSide> {
         ),
       );
       setState(() => isLoading = false);
-      if (res != null) {
+      if (res != null) {//TODO:cambiar al final
         CustomModals().showError(message: res.message, context: context);
       }
       return;

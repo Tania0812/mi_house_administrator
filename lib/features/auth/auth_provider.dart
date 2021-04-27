@@ -24,8 +24,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Failure?> login(LoginModel login) async {
     try {
-      final res = await httpHandler.performPost('/login', login.toJson(),
-          withToken: false);
+      final res = await httpHandler.performPost('/login', login.toJson(), withToken: false);
       token.saveToken(res['token'] as String);
       state = AuthStates.authenticated;
       notifyListeners();
@@ -41,8 +40,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Failure?> register(RegisterModel register) async {
     try {
-      final res = await httpHandler.performPost('/register', register.toJson(),
-          withToken: false);
+      final res = await httpHandler.performPost('/registro/admin', register.toJson(), withToken: false);
       token.saveToken(res['token'] as String);
       state = AuthStates.authenticated;
       notifyListeners();

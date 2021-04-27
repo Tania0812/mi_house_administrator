@@ -48,6 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  // void _goLogin(){
+  //   setState(() => isLogin= true);
+  // }
 }
 
 class _LeftSide extends StatefulWidget {
@@ -130,7 +133,7 @@ class __LeftSideState extends State<_LeftSide> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _repeatPasswordController,
-                validator: TextValidators.passwordValidator,
+                validator:(_repeatPasswordController)=>TextValidators.confirmPassword(_repeatPasswordController, _passwordController.text),
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: const InputDecoration(
@@ -190,7 +193,10 @@ class __LeftSideState extends State<_LeftSide> {
     if (_formController.currentState!.validate()) {
       setState(() => isLoading = true);
       final res = await Provider.of<AuthProvider>(context, listen: false).login(
-        LoginModel(email: _emailController.text.trim(), password: _passwordController.text.trim()),
+        LoginModel(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
       );
       setState(() => isLoading = false);
       if (res != null) {

@@ -1,3 +1,5 @@
+
+
 class TextValidators {
   static String? emailValidator(String? value) {
     if (value!.isEmpty) {
@@ -24,6 +26,19 @@ class TextValidators {
     }
     if (value.length < 6) {
       return 'La contraseña debe tener 6 o mas caracteres';
+    }
+    return null;
+  }
+
+  static String? confirmPassword(String? password, String? password2){
+    if (password!.isEmpty) {
+      return 'Ingresa tu contraseña';
+    }
+    if (password.length < 6) {
+      return 'La contraseña debe tener 6 o mas caracteres';
+    }
+    if (password != password2){
+      return 'Las contraseñas no coinciden';
     }
     return null;
   }
