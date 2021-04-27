@@ -50,6 +50,9 @@ class ResidentsProvider extends ChangeNotifier {
 
   Future<Failure?> fetchResidentsStats() async {
     try {
+      if (statsByMonth != null) {
+        return null;
+      }
       final res = await httpHandler.performGet('/residentes/por_mes');
       statsByMonth = StatsByMonthResponse.fromJson(res);
       return null;

@@ -58,8 +58,6 @@ class HomeTab extends StatelessWidget {
                 );
               },
             ),
-
-            // ChartCard(color: Color(0xFF93A5E4), title: '# RESERVAS'),
           ],
         ),
         const SizedBox(height: 30),

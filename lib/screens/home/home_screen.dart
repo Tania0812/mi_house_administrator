@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/home/home_tab.dart';
 import 'package:mi_house_administrator/screens/home/recepcion_tab.dart';
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icons.exit_to_app,
                     text: 'Salir',
                     index: 99,
-                    onTap: () {},
+                    onTap: () =>Provider.of<AuthProvider>(context, listen: false).logout(),
                   ),
                 ],
               ),

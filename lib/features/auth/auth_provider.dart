@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/failure/failure.dart';
 import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
+import 'package:mi_house_administrator/core/util/app_state.dart';
 import 'package:mi_house_administrator/features/auth/models/auth_model.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
+import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
+import 'package:provider/provider.dart';
 
 enum AuthStates {
   initial,
@@ -21,6 +24,12 @@ class AuthProvider extends ChangeNotifier {
 
   AuthStates state = AuthStates.notAuthenticated;
   AuthProvider({required this.token, required this.httpHandler});
+
+  Future<Failure?> logout() async {
+    state = AuthStates.notAuthenticated;
+    notifyListeners();
+    Provider.of<HomeUiProvider>(appContext.getContext, listen: false).onChangeSelectedItem(0);
+  }
 
   Future<Failure?> login(LoginModel login) async {
     try {

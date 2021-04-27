@@ -50,6 +50,9 @@ class RecepcionProvider extends ChangeNotifier {
 
   Future<Failure?> fetchRecepcionStats() async {
     try {
+      if (statsByMonth != null) {
+        return null;
+      }
       final res = await httpHandler.performGet('/recepcion/por_mes');
       statsByMonth = StatsByMonthResponse.fromJson(res);
       return null;
