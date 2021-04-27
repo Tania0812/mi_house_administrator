@@ -74,12 +74,12 @@ class RecepcionTab extends StatelessWidget {
                                 children: [
                                   IconButton(
                                     icon: const Icon(Icons.edit),
-                                    onPressed: () {},
                                     color: Theme.of(context).primaryColor,
+                                    onPressed: () {},
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),
-                                    onPressed: () {},
+                                    onPressed: () => recepcionProv.deleteRecepcion(e.email),
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ],

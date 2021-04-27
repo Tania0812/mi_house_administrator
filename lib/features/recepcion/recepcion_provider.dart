@@ -64,4 +64,19 @@ class RecepcionProvider extends ChangeNotifier {
       return Failure(message: e.toString());
     }
   }
+
+  Future<Failure?> deleteRecepcion(String email) async {
+    try {
+      await httpHandler.performDelete('/recepcion/delete', {'email': email});
+      recepcionResponse!.data.removeWhere((e) => e.email == email);
+      notifyListeners();
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
 }

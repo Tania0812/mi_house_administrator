@@ -46,10 +46,10 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
       );
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      printLogs(response: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
-      if (isFailed(res.statusCode)) {
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(message: decodedRes['message'] as String);
       }
+      printLogs(response: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
       return decodedRes;
     } catch (_) {
       rethrow;
@@ -75,7 +75,7 @@ class HttpHandlerImpl implements HttpHandler {
           endpoint: endpoint,
           statusCode: res.statusCode,
           body: body.toString());
-      if (isFailed(res.statusCode)) {
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
@@ -103,7 +103,7 @@ class HttpHandlerImpl implements HttpHandler {
           statusCode: res.statusCode,
           body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      if (isFailed(res.statusCode)) {
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
@@ -131,7 +131,7 @@ class HttpHandlerImpl implements HttpHandler {
           statusCode: res.statusCode,
           body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      if (isFailed(res.statusCode)) {
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;

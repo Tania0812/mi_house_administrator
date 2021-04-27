@@ -30,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [BoxShadow(color: Colors.grey[300]!, spreadRadius: 2)],
               ),
               width: isLarge ? 190 : 100,
               height: size.height,
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icons.exit_to_app,
                     text: 'Salir',
                     index: 99,
-                    onTap: () =>Provider.of<AuthProvider>(context, listen: false).logout(),
+                    onTap: () => Provider.of<AuthProvider>(context, listen: false).logout(),
                   ),
                 ],
               ),

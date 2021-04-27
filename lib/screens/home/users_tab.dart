@@ -92,9 +92,7 @@ class UsersTab extends StatelessWidget {
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      
-                                    },
+                                    onPressed: () => residentsProv.deleteResidents(e.email),
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ],

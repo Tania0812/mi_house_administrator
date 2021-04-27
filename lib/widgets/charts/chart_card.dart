@@ -100,7 +100,7 @@ class ChartCard extends StatelessWidget {
                 ),
                 lineBarsData: [
                   LineChartBarData(
-                    isCurved: true,
+                    // isCurved: true,
                     colors: [color],
                     barWidth: 3,
                     belowBarData: BarAreaData(
