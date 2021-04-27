@@ -8,7 +8,7 @@ class RecepcionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.homeWidth();
+    final width = Responsive.homeWidth(context);
     return Column(
       children: [
         const CustomAppBar(),

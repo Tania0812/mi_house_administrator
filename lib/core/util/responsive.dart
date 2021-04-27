@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mi_house_administrator/core/util/app_state.dart';
 
 class Responsive {
-  static double homeWidth() {
-    final size = MediaQuery.of(appContext.getContext).size;
+  static double homeWidth(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final bool isLarge = size.width > 1024;
     return isLarge ? size.width - 270 : size.width - 170;
   }
 
-  static bool isLarge() {
-    final size = MediaQuery.of(appContext.getContext).size;
+  static bool isLarge(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return size.width > 1024;
   }
 }

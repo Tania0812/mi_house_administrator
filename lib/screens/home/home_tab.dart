@@ -11,7 +11,7 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.homeWidth();
+    final width = Responsive.homeWidth(context);
 
     return ListView(
       children: [
@@ -61,7 +61,7 @@ class PresentationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.homeWidth();
+    final width = Responsive.homeWidth(context);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 30),
       width: width,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/util/responsive.dart';
+import 'package:mi_house_administrator/screens/residents/residents_form.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/text/text.dart';
 
@@ -8,7 +9,7 @@ class UsersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.homeWidth();
+    final width = Responsive.homeWidth(context);
     return Column(
       children: [
         const CustomAppBar(),
@@ -26,7 +27,7 @@ class UsersTab extends StatelessWidget {
               SizedBox(
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed(ResidentsFormScreen.route),
                   style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
                   child: const Text('+ Nuevo residente'),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
+import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -66,25 +67,7 @@ class __RightSidesState extends State<_RightSide> {
             child: Column(
               children: [
                 SizedBox(height: size.height * 0.08),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColor,
-                        ),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Theme.of(context).primaryColorLight,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const CustomBackButton(),
                 SizedBox(height: size.height * 0.05),
                 Row(
                   children: [
