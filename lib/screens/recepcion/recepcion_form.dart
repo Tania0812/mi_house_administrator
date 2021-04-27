@@ -163,6 +163,7 @@ class _RecepcionFormState extends State<RecepcionForm> {
                 child: const Text('Crear'),
               ),
             ),
+            const SizedBox(height: 40),
           ],
         ),
       ),

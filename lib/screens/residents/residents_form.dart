@@ -64,7 +64,7 @@ class _ResidentFormState extends State<ResidentForm> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
       child: Form(
         key: _formKey,
         child: Column(
