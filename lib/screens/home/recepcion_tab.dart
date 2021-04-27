@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/util/responsive.dart';
+import 'package:mi_house_administrator/screens/recepcion/recepcion_form.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/text/text.dart';
 
@@ -26,7 +27,7 @@ class RecepcionTab extends StatelessWidget {
               SizedBox(
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed(RecepcionFormScreen.route),
                   style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
                   child: const Text('+ Nuevo recepción'),
                 ),

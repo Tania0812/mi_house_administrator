@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/datetime/date_formatter.dart';
 import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
-import 'package:mi_house_administrator/features/residents/models/residents_model.dart';
-import 'package:mi_house_administrator/features/residents/residents_provider.dart';
+import 'package:mi_house_administrator/features/recepcion/models/recepcion_model.dart';
+import 'package:mi_house_administrator/features/recepcion/recepcion_provider.dart';
 import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
 import 'package:provider/provider.dart';
 
-class ResidentsFormScreen extends StatelessWidget {
-  static const route = 'ResidentsFormScreen';
+class RecepcionFormScreen extends StatelessWidget {
+  static const route = 'RecepcionFormScreen';
 
-  const ResidentsFormScreen({Key? key}) : super(key: key);
+  const RecepcionFormScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ResidentsFormScreen extends StatelessWidget {
           SizedBox(
             width: size.width * 0.5,
             height: size.height,
-            child: const ResidentForm(),
+            child: const RecepcionForm(),
           ),
         ],
       ),
@@ -38,21 +38,19 @@ class ResidentsFormScreen extends StatelessWidget {
   }
 }
 
-class ResidentForm extends StatefulWidget {
-  const ResidentForm({Key? key}) : super(key: key);
+class RecepcionForm extends StatefulWidget {
+  const RecepcionForm({Key? key}) : super(key: key);
 
   @override
-  _ResidentFormState createState() => _ResidentFormState();
+  _RecepcionFormState createState() => _RecepcionFormState();
 }
 
-class _ResidentFormState extends State<ResidentForm> {
+class _RecepcionFormState extends State<RecepcionForm> {
   final _formKey = GlobalKey<FormState>();
   final _documentController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _blockController = TextEditingController();
-  final _appartmenmtController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatedPasswordController = TextEditingController();
 
@@ -74,7 +72,7 @@ class _ResidentFormState extends State<ResidentForm> {
             const CustomBackButton(),
             const SizedBox(height: 20),
             const Text(
-              'Nuevo residente',
+              'Nuevo recepción',
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 28),
             ),
             const SizedBox(height: 20),
@@ -144,16 +142,6 @@ class _ResidentFormState extends State<ResidentForm> {
             ),
             const SizedBox(height: 20),
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Bloque o torre'),
-              controller: _blockController,
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Apartamento'),
-              controller: _appartmenmtController,
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
               decoration: const InputDecoration(labelText: 'Contraseña'),
               controller: _passwordController,
               validator: TextValidators.passwordValidator,
@@ -183,10 +171,8 @@ class _ResidentFormState extends State<ResidentForm> {
 
   Future<void> handleOnCreate() async {
     if (_formKey.currentState!.validate() && _dateTime != null && _documentType != null) {
-      final residentsModel = ResidentsModel(
+      final recepcionModel = RecepcionModel(
         apellidos: _lastNameController.text.trim(),
-        apto: _appartmenmtController.text.trim(),
-        bloque: _blockController.text.trim(),
         documento: _documentController.text.trim(),
         email: _emailController.text.trim(),
         fechaNac: _dateTime!.toIso8601String(),
@@ -196,13 +182,14 @@ class _ResidentFormState extends State<ResidentForm> {
         tipoDoc: _documentType!,
       );
 
-      final res = await Provider.of<ResidentsProvider>(context, listen: false)
-          .registerResident(residentsModel);
+      final res = await Provider.of<RecepcionProvider>(context, listen: false)
+          .registerResident(recepcionModel);
       if (res == null) {
         await CustomModals().showError(
-            message: 'Residente registrado exitosamente',
-            context: context,
-            title: 'Felicitaciones');
+          message: 'Recepcion registrado exitosamente',
+          context: context,
+          title: 'Felicitaciones',
+        );
         Navigator.of(context).pop();
         return;
       }
