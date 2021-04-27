@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
   static const route = 'RegisterScreen';
-
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -63,7 +62,13 @@ class __RightSidesState extends State<_RightSide> {
   String? documentType;
   @override
   Widget build(BuildContext context) {
+    final args = Provider.of<AuthProvider>(context).initialRegisterArgs!;
+    _emailController.text = args.email;
+    _passwordController.text = args.password;
+    _repeatPasswordController.text = args.confirmPassword;
+
     final size = MediaQuery.of(context).size;
+
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

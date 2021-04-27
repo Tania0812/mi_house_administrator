@@ -203,8 +203,15 @@ class __LeftSideState extends State<_LeftSide> {
 
   void handleOnRegister() {
     if (_formController.currentState!.validate()) {
-      //TODO: Pass arguments to RegisterScreen
+      Provider.of<AuthProvider>(context, listen: false).onRegisterArgs(
+        InitialRegisterArgs(
+          confirmPassword: _emailController.text.trim(),
+          email: _passwordController.text.trim(),
+          password: _repeatPasswordController.text.trim(),
+        ),
+      );
       Navigator.of(context).pushNamed(RegisterScreen.route);
+
       return;
     }
   }

@@ -17,10 +17,16 @@ class AuthProvider extends ChangeNotifier {
   final HttpHandler httpHandler;
   final Token token;
   bool isLoading = false;
+  InitialRegisterArgs? initialRegisterArgs;
 
   //TODO: CHANGE
   AuthStates state = AuthStates.notAuthenticated;
   AuthProvider({required this.token, required this.httpHandler});
+
+  void onRegisterArgs(InitialRegisterArgs args) {
+    initialRegisterArgs = args;
+    notifyListeners();
+  }
 
   Future<Failure?> login(LoginModel login) async {
     try {
@@ -40,7 +46,8 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Failure?> register(RegisterModel register) async {
     try {
-      final res = await httpHandler.performPost('/registro/admin', register.toJson(), withToken: false);
+      final res =
+          await httpHandler.performPost('/registro/admin', register.toJson(), withToken: false);
       token.saveToken(res['token'] as String);
       state = AuthStates.authenticated;
       notifyListeners();
@@ -53,4 +60,12 @@ class AuthProvider extends ChangeNotifier {
       return Failure(message: e.toString());
     }
   }
+}
+
+class InitialRegisterArgs {
+  final String email;
+  final String password;
+  final String confirmPassword;
+
+  InitialRegisterArgs({required this.email, required this.password, required this.confirmPassword});
 }
