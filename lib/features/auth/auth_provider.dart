@@ -5,6 +5,7 @@ import 'package:mi_house_administrator/core/failure/failure.dart';
 import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
+import 'package:mi_house_administrator/features/auth/models/register_model.dart';
 
 enum AuthStates {
   initial,
@@ -18,12 +19,13 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
 
   //TODO: CHANGE
-  AuthStates state = AuthStates.authenticated;
+  AuthStates state = AuthStates.notAuthenticated;
   AuthProvider({required this.token, required this.httpHandler});
 
   Future<Failure?> login(LoginModel login) async {
     try {
-      final res = await httpHandler.performPost('/login', login.toJson(), withToken: false);
+      final res = await httpHandler.performPost('/login', login.toJson(),
+          withToken: false);
       token.saveToken(res['token'] as String);
       state = AuthStates.authenticated;
       notifyListeners();
@@ -37,5 +39,20 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: make Register: function, model
+  Future<Failure?> register(RegisterModel register) async {
+    try {
+      final res = await httpHandler.performPost('/register', register.toJson(),
+          withToken: false);
+      token.saveToken(res['token'] as String);
+      state = AuthStates.authenticated;
+      notifyListeners();
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
 }
