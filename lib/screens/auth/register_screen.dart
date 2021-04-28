@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
+import 'package:mi_house_administrator/features/auth/models/register_model.dart';
+import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
   static const route = 'RegisterScreen';
-
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -51,13 +56,23 @@ class __RightSidesState extends State<_RightSide> {
   final _repeatPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
-  final actualDate = DateTime.now();
-  DateTime? selectedDate;
+  final _dateController = TextEditingController();
 
-  String? documentType;
+  final actualDate = DateTime.now();
+  String aux = '';
+  String? _documentType;
+  DateTime? selectedDate;
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    final args = Provider.of<AuthProvider>(context).initialRegisterArgs!;
+    _emailController.text = args.email;
+    _passwordController.text = args.password;
+    _repeatPasswordController.text = args.confirmPassword;
+
     final size = MediaQuery.of(context).size;
+
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -100,15 +115,11 @@ class __RightSidesState extends State<_RightSide> {
                     )),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                    value: documentType,
+                    value: _documentType,
                     decoration: const InputDecoration(labelText: 'Tipo de Documento'),
                     icon: const Icon(Icons.arrow_downward_rounded),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        documentType = newValue;
-                      });
-                    },
-                    items: <String>['C.C', 'Pasaporte', 'NIT', 'NUIP']
+                    onChanged: (String? newValue) => setState(() => _documentType = newValue),
+                    items: <String>['C.C', 'Pasaporte', 'NIT']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -142,25 +153,24 @@ class __RightSidesState extends State<_RightSide> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                InkWell(
+                TextFormField(
+                  controller: _dateController,
+                  decoration: const InputDecoration(
+                    labelText: "Fecha de Nacimiento",
+                    prefixIcon: Icon(Icons.calendar_today),
+                  ),
                   onTap: () async {
-                    selectedDate = await showDatePicker(
+                    DateTime? date;
+                    date = await showDatePicker(
                       context: context,
                       initialDate: actualDate.subtract(const Duration(days: 6570)),
                       firstDate: DateTime(1900),
                       lastDate: actualDate.subtract(const Duration(days: 6570)),
                     );
-                    //TODO: style container
+                    if (date != null) {
+                      _dateController.text = date.toIso8601String();
+                    }
                   },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(selectedDate?.toIso8601String() ?? 'Fecha de nacimiento'),
-                  ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -187,7 +197,8 @@ class __RightSidesState extends State<_RightSide> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _repeatPasswordController,
-                  validator: TextValidators.passwordValidator,
+                  validator: (_repeatPassword) =>
+                      TextValidators.confirmPassword(_repeatPassword, _passwordController.text),
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: const InputDecoration(
@@ -197,25 +208,60 @@ class __RightSidesState extends State<_RightSide> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                    ),
-                    child: Text(
-                      'Registrarme',
-                      style: TextStyle(color: Theme.of(context).primaryColorLight),
-                    ),
-                  ),
-                ),
+                isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: handleOnRegister,
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            'Registrarme',
+                            style: TextStyle(color: Theme.of(context).primaryColorLight),
+                          ),
+                        ),
+                      ),
                 SizedBox(height: size.height * 0.08),
               ],
             ),
           )),
     );
+  }
+
+  Future<void> handleOnRegister() async {
+    if (_formController.currentState!.validate()) {
+      setState(() => isLoading = true);
+      final res = await Provider.of<AuthProvider>(context, listen: false).register(
+        RegisterModel(
+          tipoDoc: _documentType!,
+          documento: _documentController.text.trim(),
+          nombres: _nameController.text.trim(),
+          apellidos: _lastnameController.text.trim(),
+          fechaNac: _dateController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          repeatPassword: _repeatPasswordController.text.trim(),
+          nombreConjunto: 'wedñkigfPÑIEBO',
+        ),
+      );
+      setState(() => isLoading = false);
+      if (res != null) {
+        CustomModals().showError(message: res.message, context: context);
+        return;
+      }
+      CustomModals().showWellDone(
+        message: 'Registro Exitoso!',
+        context: context,
+        onPressed: () {
+          Provider.of<HomeUiProvider>(context, listen: false).onChangeIsLogin(newValue: true);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
+      );
+    }
   }
 }
 

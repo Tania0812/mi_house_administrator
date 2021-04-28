@@ -47,7 +47,9 @@ class HttpHandlerImpl implements HttpHandler {
       );
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
       }
       printLogs(response: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
       return decodedRes;
@@ -104,7 +106,9 @@ class HttpHandlerImpl implements HttpHandler {
           body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
       }
       return decodedRes;
     } catch (_) {
@@ -131,8 +135,12 @@ class HttpHandlerImpl implements HttpHandler {
           statusCode: res.statusCode,
           body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
+
       if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
+
       }
       return decodedRes;
     } catch (_) {

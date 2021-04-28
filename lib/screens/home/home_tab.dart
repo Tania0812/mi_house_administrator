@@ -7,7 +7,9 @@ import 'package:mi_house_administrator/features/recepcion/recepcion_provider.dar
 import 'package:mi_house_administrator/features/residents/residents_provider.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/charts/chart_card.dart';
+import 'package:mi_house_administrator/widgets/charts/chart_pie.dart';
 import 'package:provider/provider.dart';
+
 
 class HomeTab extends StatelessWidget {
   const HomeTab({Key? key}) : super(key: key);
@@ -72,6 +74,7 @@ class HomeTab extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [BoxShadow(color: Colors.grey[300]!, spreadRadius: 1)],
               ),
+              child: const ChartPie(title: 'Hola'),
               //TODO: add sheduled events and my plans done
             ),
             Container(

@@ -3,23 +3,20 @@ import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
+import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
   static const route = 'LoginScreen';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool isLogin = true;
-
-  @override
   Widget build(BuildContext context) {
+    final uiProv = Provider.of<HomeUiProvider>(context);
+    final isLogin = uiProv.isLogin;
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -40,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: _LeftSide(
               isLogin: isLogin,
               onChangeAuthMode: () {
-                setState(() => isLogin = !isLogin);
+                uiProv.onChangeIsLogin(newValue: !isLogin);
               },
             ),
           ),
@@ -130,7 +127,8 @@ class __LeftSideState extends State<_LeftSide> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _repeatPasswordController,
-                validator: TextValidators.passwordValidator,
+                validator: (_repeatPasswordController) => TextValidators.confirmPassword(
+                    _repeatPasswordController, _passwordController.text),
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: const InputDecoration(
@@ -190,7 +188,10 @@ class __LeftSideState extends State<_LeftSide> {
     if (_formController.currentState!.validate()) {
       setState(() => isLoading = true);
       final res = await Provider.of<AuthProvider>(context, listen: false).login(
-        LoginModel(email: _emailController.text.trim(), password: _passwordController.text.trim()),
+        LoginModel(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
       );
       setState(() => isLoading = false);
       if (res != null) {
@@ -202,8 +203,15 @@ class __LeftSideState extends State<_LeftSide> {
 
   void handleOnRegister() {
     if (_formController.currentState!.validate()) {
-      //TODO: Pass arguments to RegisterScreen
+      Provider.of<AuthProvider>(context, listen: false).onRegisterArgs(
+        InitialRegisterArgs(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          confirmPassword: _repeatPasswordController.text.trim(),
+        ),
+      );
       Navigator.of(context).pushNamed(RegisterScreen.route);
+
       return;
     }
   }
