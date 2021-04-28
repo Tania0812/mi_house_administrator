@@ -48,7 +48,9 @@ class HttpHandlerImpl implements HttpHandler {
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       printLogs(body: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
       if (isFailed(res.statusCode)) {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
       }
       return decodedRes;
     } catch (_) {
@@ -71,7 +73,9 @@ class HttpHandlerImpl implements HttpHandler {
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       printLogs(body: res.body, type: 'DELETE', endpoint: endpoint, statusCode: res.statusCode);
       if (isFailed(res.statusCode)) {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
       }
       return decodedRes;
     } catch (_) {
@@ -94,7 +98,9 @@ class HttpHandlerImpl implements HttpHandler {
       printLogs(body: res.body, type: 'POST', endpoint: endpoint, statusCode: res.statusCode);
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode)) {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
       }
       return decodedRes;
     } catch (_) {
@@ -117,7 +123,9 @@ class HttpHandlerImpl implements HttpHandler {
       printLogs(body: res.body, type: 'PUT', endpoint: endpoint, statusCode: res.statusCode);
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
       if (isFailed(res.statusCode)) {
-        throw Failure(message: decodedRes['message'] as String);
+        throw Failure(
+          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
+        );
       }
       return decodedRes;
     } catch (_) {

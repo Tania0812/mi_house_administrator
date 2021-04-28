@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
@@ -66,7 +64,7 @@ class __RightSidesState extends State<_RightSide> {
 
   @override
   Widget build(BuildContext context) {
-    final args = Provider.of<AuthProvider>(context).initialRegisterArgs!; 
+    final args = Provider.of<AuthProvider>(context).initialRegisterArgs!;
     _emailController.text = args.email;
     _passwordController.text = args.password;
     _repeatPasswordController.text = args.confirmPassword;
@@ -226,20 +224,22 @@ class __RightSidesState extends State<_RightSide> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: handleOnRegister,
-                    style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                    ),
-                    child: Text(
-                      'Registrarme',
-                      style: TextStyle(color: Theme.of(context).primaryColorLight),
-                    ),
-                  ),
-                ),
+                isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: handleOnRegister,
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            'Registrarme',
+                            style: TextStyle(color: Theme.of(context).primaryColorLight),
+                          ),
+                        ),
+                      ),
                 SizedBox(height: size.height * 0.08),
               ],
             ),
@@ -253,16 +253,21 @@ class __RightSidesState extends State<_RightSide> {
       final res = await Provider.of<AuthProvider>(context, listen: false).register(
         RegisterModel(
           tipoDoc: _documentType!,
-          document: _documentController.text.trim(),
-          name: _nameController.text.trim(),
-          lastname: _lastnameController.text.trim(),
+          documento: _documentController.text.trim(),
+          nombres: _nameController.text.trim(),
+          apellidos: _lastnameController.text.trim(),
           fechaNac: _dateController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
-          repeatpassword: _repeatPasswordController.text.trim(),
+          repeatPassword: _repeatPasswordController.text.trim(),
+          nombreConjunto: 'wedñkigfPÑIEBO',
         ),
       );
       setState(() => isLoading = false);
+      if (res != null) {
+        CustomModals().showError(message: res.message, context: context);
+        return;
+      }
       CustomModals().showWellDone(
         message: 'Registro Exitoso!',
         context: context,
@@ -272,11 +277,6 @@ class __RightSidesState extends State<_RightSide> {
           Navigator.of(context).pop();
         },
       );
-      if (res != null) {
-        log('Entro a NULL');
-        CustomModals().showError(message: res.message, context: context);
-      }
-      return;
     }
   }
 }

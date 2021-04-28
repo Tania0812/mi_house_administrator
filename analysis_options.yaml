@@ -7,3 +7,4 @@ analyzer:
 linter:
   rules:
     sort_pub_dependencies: false
+    prefer_if_elements_to_conditional_expressions: false

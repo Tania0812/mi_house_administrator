@@ -46,11 +46,11 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Failure?> register(RegisterModel register) async {
     try {
-      final res =
-          await httpHandler.performPost('/registro/admin', register.toJson(), withToken: false);
-      token.saveToken(res['token'] as String);
-      state = AuthStates.authenticated;
-      notifyListeners();
+      await httpHandler.performPost(
+        '/registro/admin',
+        register.toJson(),
+        withToken: false,
+      );
       return null;
     } on Failure catch (e) {
       return e;

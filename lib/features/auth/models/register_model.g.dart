@@ -8,24 +8,27 @@ part of 'register_model.dart';
 
 RegisterModel _$RegisterModelFromJson(Map<String, dynamic> json) {
   return RegisterModel(
+    documento: json['documento'] as String,
+    nombres: json['nombres'] as String,
+    apellidos: json['apellidos'] as String,
+    nombreConjunto: json['nombreConjunto'] as String?,
     tipoDoc: json['tipoDoc'] as String,
-    document: json['document'] as String,
-    name: json['name'] as String,
-    lastname: json['lastname'] as String,
     fechaNac: json['fechaNac'] as String,
     email: json['email'] as String,
     password: json['password'] as String,
-    repeatpassword: json['repeatpassword'] as String,
+    repeatPassword: json['repeatPassword'] as String,
   );
 }
 
-Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) => <String, dynamic>{
+Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
+    <String, dynamic>{
       'tipoDoc': instance.tipoDoc,
-      'document': instance.document,
-      'name': instance.name,
-      'lastname': instance.lastname,
+      'documento': instance.documento,
+      'nombres': instance.nombres,
+      'apellidos': instance.apellidos,
       'fechaNac': instance.fechaNac,
       'email': instance.email,
       'password': instance.password,
-      'repeatpassword': instance.repeatpassword,
+      'repeatPassword': instance.repeatPassword,
+      'nombreConjunto': instance.nombreConjunto,
     };
