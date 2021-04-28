@@ -205,9 +205,9 @@ class __LeftSideState extends State<_LeftSide> {
     if (_formController.currentState!.validate()) {
       Provider.of<AuthProvider>(context, listen: false).onRegisterArgs(
         InitialRegisterArgs(
-          confirmPassword: _emailController.text.trim(),
-          email: _passwordController.text.trim(),
-          password: _repeatPasswordController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          confirmPassword: _repeatPasswordController.text.trim(),
         ),
       );
       Navigator.of(context).pushNamed(RegisterScreen.route);

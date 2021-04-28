@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
@@ -54,15 +56,17 @@ class __RightSidesState extends State<_RightSide> {
   final _repeatPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
-  final actualDate = DateTime.now();
   final _dateController = TextEditingController();
+
+  final actualDate = DateTime.now();
+  String aux = '';
+  String? _documentType;
   DateTime? selectedDate;
   bool isLoading = false;
 
-  String? documentType;
   @override
   Widget build(BuildContext context) {
-    final args = Provider.of<AuthProvider>(context).initialRegisterArgs!;
+    final args = Provider.of<AuthProvider>(context).initialRegisterArgs!; 
     _emailController.text = args.email;
     _passwordController.text = args.password;
     _repeatPasswordController.text = args.confirmPassword;
@@ -129,15 +133,11 @@ class __RightSidesState extends State<_RightSide> {
                     )),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
-                    value: documentType,
+                    value: _documentType,
                     decoration: const InputDecoration(labelText: 'Tipo de Documento'),
                     icon: const Icon(Icons.arrow_downward_rounded),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        documentType = newValue;
-                      });
-                    },
-                    items: <String>['C.C', 'Pasaporte', 'NIT', 'NUIP']
+                    onChanged: (String? newValue) => setState(() => _documentType = newValue),
+                    items: <String>['C.C', 'Pasaporte', 'NIT']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -252,9 +252,11 @@ class __RightSidesState extends State<_RightSide> {
       setState(() => isLoading = true);
       final res = await Provider.of<AuthProvider>(context, listen: false).register(
         RegisterModel(
+          tipoDoc: _documentType!,
           document: _documentController.text.trim(),
           name: _nameController.text.trim(),
           lastname: _lastnameController.text.trim(),
+          fechaNac: _dateController.text.trim(),
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
           repeatpassword: _repeatPasswordController.text.trim(),
@@ -265,13 +267,13 @@ class __RightSidesState extends State<_RightSide> {
         message: 'Registro Exitoso!',
         context: context,
         onPressed: () {
-          Provider.of<HomeUiProvider>(context, listen: false).onChangeIsLogin(newValue: false);
+          Provider.of<HomeUiProvider>(context, listen: false).onChangeIsLogin(newValue: true);
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         },
       );
       if (res != null) {
-        //TODO:cambiar al final
+        log('Entro a NULL');
         CustomModals().showError(message: res.message, context: context);
       }
       return;
