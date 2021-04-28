@@ -75,7 +75,10 @@ class RecepcionTab extends StatelessWidget {
                                   IconButton(
                                     icon: const Icon(Icons.edit),
                                     color: Theme.of(context).primaryColor,
-                                    onPressed: () {},
+                                    onPressed: () => Navigator.of(context).pushNamed(
+                                      RecepcionFormScreen.route,
+                                      arguments: e,
+                                    ),
                                   ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),

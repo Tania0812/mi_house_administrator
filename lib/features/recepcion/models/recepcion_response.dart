@@ -65,6 +65,11 @@ class Recepcion {
   factory Recepcion.fromJson(Map<String, dynamic> json) => _$RecepcionFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecepcionToJson(this);
+
+  @override
+  String toString() {
+    return 'Recepcion(id: $id, tipoDoc: $tipoDoc, documento: $documento, nombres: $nombres, apellidos: $apellidos, apto: $apto, bloque: $bloque, fechaNac: $fechaNac, email: $email, createdAt: $createdAt, password: $password, turno: $turno, vivienda: $vivienda, reportes: $reportes, comunicados: $comunicados, reservas: $reservas, conjunto: $conjunto, roles: $roles)';
+  }
 }
 
 @JsonSerializable()

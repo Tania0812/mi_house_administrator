@@ -3,6 +3,7 @@ import 'package:mi_house_administrator/core/datetime/date_formatter.dart';
 import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/recepcion/models/recepcion_model.dart';
+import 'package:mi_house_administrator/features/recepcion/models/recepcion_response.dart';
 import 'package:mi_house_administrator/features/recepcion/recepcion_provider.dart';
 import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
 import 'package:provider/provider.dart';
@@ -54,14 +55,41 @@ class _RecepcionFormState extends State<RecepcionForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatedPasswordController = TextEditingController();
-
+  bool isNew = true;
   String? _documentType;
   String? _formattedDate;
   DateTime? _dateTime;
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      loadInitialData();
+    });
+  }
+
+  void loadInitialData() {
+    final recepcion = ModalRoute.of(context)!.settings.arguments as Recepcion?;
+    if (recepcion != null) {
+      _documentController.text = recepcion.documento;
+      _firstNameController.text = recepcion.nombres;
+      _lastNameController.text = recepcion.apellidos;
+      _nombreConjuntoController.text = recepcion.conjunto.nombre;
+      _emailController.text = recepcion.email;
+      _documentType = recepcion.tipoDoc;
+      _dateTime = recepcion.fechaNac;
+      DateFormatter.dateFormatted(recepcion.fechaNac).then(
+        (val) => setState(() => _formattedDate = val),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final recepcion = ModalRoute.of(context)!.settings.arguments as Recepcion?;
+    isNew = recepcion == null;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Form(
@@ -151,14 +179,14 @@ class _RecepcionFormState extends State<RecepcionForm> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Contraseña'),
               controller: _passwordController,
-              validator: TextValidators.passwordValidator,
+              validator: isNew ? TextValidators.passwordValidator : null,
             ),
             const SizedBox(height: 20),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Confirma la contraseña'),
               controller: _repeatedPasswordController,
               //TODO: change validator to confirmPasswordValidator
-              validator: TextValidators.passwordValidator,
+              validator: isNew ? TextValidators.passwordValidator : null,
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -190,12 +218,14 @@ class _RecepcionFormState extends State<RecepcionForm> {
         repeatPassword: _repeatedPasswordController.text.trim(),
         tipoDoc: _documentType!,
       );
-
-      final res = await Provider.of<RecepcionProvider>(context, listen: false)
-          .registerRecepcion(recepcionModel);
+      final recepcionProv = Provider.of<RecepcionProvider>(context, listen: false);
+      final res = isNew
+          ? await recepcionProv.registerRecepcion(recepcionModel)
+          : await recepcionProv.updateRecepcion(recepcionModel);
       if (res == null) {
         await CustomModals().showError(
-          message: 'Recepcion registrado exitosamente',
+          message:
+              isNew ? 'Recepcion registrado exitosamente' : 'Recepcion actualizado exitosamente',
           context: context,
           title: 'Felicitaciones',
         );

@@ -24,6 +24,22 @@ class RecepcionProvider extends ChangeNotifier {
         withToken: false,
       );
       fetchRecepcion();
+      notifyListeners();
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
+  Future<Failure?> updateRecepcion(RecepcionModel recepcionModel) async {
+    try {
+      await httpHandler.performPut('/recepcion/editar', recepcionModel.toJson());
+      fetchRecepcion();
+      notifyListeners();
       return null;
     } on Failure catch (e) {
       return e;

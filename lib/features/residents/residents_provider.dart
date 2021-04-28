@@ -24,6 +24,7 @@ class ResidentsProvider extends ChangeNotifier {
         withToken: false,
       );
       fetchResidents();
+      notifyListeners();
       return null;
     } on Failure catch (e) {
       return e;
