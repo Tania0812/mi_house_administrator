@@ -2,7 +2,7 @@
     package="com.example.mi_house_administrator">
    <application
         android:label="mi_house_administrator"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

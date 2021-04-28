@@ -29,6 +29,7 @@ class Token {
   }
 
   Future<void> deleteToken() async {
+    token = null;
     await dbClient.deleteObject(key: 'token');
   }
 }
