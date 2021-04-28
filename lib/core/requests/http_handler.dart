@@ -46,12 +46,12 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
       );
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      printLogs(body: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
-      if (isFailed(res.statusCode)) {
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(
           message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
         );
       }
+      printLogs(response: res.body, type: 'GET', endpoint: endpoint, statusCode: res.statusCode);
       return decodedRes;
     } catch (_) {
       rethrow;
@@ -71,11 +71,14 @@ class HttpHandlerImpl implements HttpHandler {
         body: json.encode(body),
       );
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      printLogs(body: res.body, type: 'DELETE', endpoint: endpoint, statusCode: res.statusCode);
-      if (isFailed(res.statusCode)) {
-        throw Failure(
-          message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
-        );
+      printLogs(
+          response: res.body,
+          type: 'DELETE',
+          endpoint: endpoint,
+          statusCode: res.statusCode,
+          body: body.toString());
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
+        throw Failure(message: decodedRes['message'] as String);
       }
       return decodedRes;
     } catch (_) {
@@ -95,9 +98,14 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
         body: json.encode(body),
       );
-      printLogs(body: res.body, type: 'POST', endpoint: endpoint, statusCode: res.statusCode);
+      printLogs(
+          response: res.body,
+          type: 'POST',
+          endpoint: endpoint,
+          statusCode: res.statusCode,
+          body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      if (isFailed(res.statusCode)) {
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(
           message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
         );
@@ -120,12 +128,19 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
         body: json.encode(body),
       );
-      printLogs(body: res.body, type: 'PUT', endpoint: endpoint, statusCode: res.statusCode);
+      printLogs(
+          response: res.body,
+          type: 'PUT',
+          endpoint: endpoint,
+          statusCode: res.statusCode,
+          body: body.toString());
       final decodedRes = json.decode(res.body) as Map<String, dynamic>;
-      if (isFailed(res.statusCode)) {
+
+      if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(
           message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
         );
+
       }
       return decodedRes;
     } catch (_) {
@@ -144,16 +159,17 @@ class HttpHandlerImpl implements HttpHandler {
       if (token.token == null) {
         throw Failure(message: 'El usuario no tiene un Token');
       }
-      headersBase['Bearer-Token'] = token.token!;
+      headersBase['Authorization'] = 'Bearer ${token.token!}';
     }
     return headersBase;
   }
 
   void printLogs({
     required int statusCode,
-    required String body,
+    required String response,
     required String endpoint,
     required String type,
+    String? body,
   }) {
     log('#########################################################');
     log('API RESPONSE');
@@ -162,7 +178,8 @@ class HttpHandlerImpl implements HttpHandler {
     log('Token: ${token.token ?? "NO TOKEN"}');
     log('For: $endpoint');
     log('Statuscode: $statusCode');
-    log('Response: $body');
+    log('Body: $body');
+    log('Response: $response');
     log('#########################################################');
   }
 }

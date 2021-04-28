@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/home/home_tab.dart';
+import 'package:mi_house_administrator/screens/home/recepcion_tab.dart';
 import 'package:mi_house_administrator/screens/home/users_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [BoxShadow(color: Colors.grey[300]!, spreadRadius: 2)],
               ),
               width: isLarge ? 190 : 100,
               height: size.height,
@@ -36,14 +39,35 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   const Icon(Icons.home, color: Colors.white, size: 60),
-                  Text(
-                    isLarge ? 'Mi House' : 'Mi \nHouse',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
+                  isLarge
+                      ? const Text(
+                          'Mi House',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        )
+                      : Column(
+                          children: const [
+                            Text(
+                              'Mi',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              'House',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
                   const Spacer(),
                   ...menuItems.asMap().entries.map(
                     (entry) {
@@ -61,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Icons.exit_to_app,
                     text: 'Salir',
                     index: 99,
-                    onTap: () {},
+                    onTap: () => Provider.of<AuthProvider>(context, listen: false).logout(),
                   ),
                 ],
               ),
@@ -73,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: const [
                   HomeTab(),
                   UsersTab(),
-                  Text('3'),
+                  RecepcionTab(),
                   Text('4'),
                   Text('5'),
                 ],

@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/core/failure/failure.dart';
 import 'package:mi_house_administrator/core/util/date_utils.dart';
 import 'package:mi_house_administrator/core/util/responsive.dart';
+import 'package:mi_house_administrator/features/auth/auth_provider.dart';
+import 'package:mi_house_administrator/features/recepcion/recepcion_provider.dart';
+import 'package:mi_house_administrator/features/residents/residents_provider.dart';
 import 'package:mi_house_administrator/widgets/appbar/appbar.dart';
 import 'package:mi_house_administrator/widgets/charts/chart_card.dart';
 import 'package:mi_house_administrator/widgets/charts/chart_pie.dart';
+import 'package:provider/provider.dart';
+
 
 class HomeTab extends StatelessWidget {
   const HomeTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.homeWidth();
+    final width = Responsive.homeWidth(context);
+    final residentsProv = Provider.of<ResidentsProvider>(context);
+    final recepcionProv = Provider.of<RecepcionProvider>(context);
 
     return ListView(
       children: [
@@ -19,10 +27,39 @@ class HomeTab extends StatelessWidget {
         const PresentationCard(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            ChartCard(color: Color(0xFFE68A8A), title: '# RESIDENTES'),
-            ChartCard(color: Color(0xFF78C7C2), title: '# ALERTAS'),
-            ChartCard(color: Color(0xFF93A5E4), title: '# RESERVAS'),
+          children: [
+            FutureBuilder(
+              future: residentsProv.fetchResidentsStats(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if ((snapshot.data as Failure?) != null) {
+                  return Center(child: Text((snapshot.data! as Failure).message));
+                }
+                return ChartCard(
+                  color: const Color(0xFFE68A8A),
+                  title: '# RESIDENTES',
+                  statsByMonth: residentsProv.statsByMonth!,
+                );
+              },
+            ),
+            FutureBuilder(
+              future: recepcionProv.fetchRecepcionStats(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if ((snapshot.data as Failure?) != null) {
+                  return Center(child: Text((snapshot.data! as Failure).message));
+                }
+                return ChartCard(
+                  color: const Color(0xFF78C7C2),
+                  title: '# RECEPCION',
+                  statsByMonth: recepcionProv.statsByMonth!,
+                );
+              },
+            ),
           ],
         ),
         const SizedBox(height: 30),
@@ -61,7 +98,7 @@ class PresentationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.homeWidth();
+    final width = Responsive.homeWidth(context);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 30),
       width: width,
@@ -117,7 +154,7 @@ class PresentationCard extends StatelessWidget {
             bottom: 50,
             left: 30,
             child: Text(
-              '¡Buenos ${CustomDateUtils.getGreeting()}, Paola!',
+              '¡Buenos ${CustomDateUtils.getGreeting()}, ${Provider.of<AuthProvider>(context).auth!.nombres.split(" ")[0]}!',
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w800,

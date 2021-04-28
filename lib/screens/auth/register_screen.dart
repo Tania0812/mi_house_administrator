@@ -5,6 +5,8 @@ import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/auth/models/register_model.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -80,25 +82,7 @@ class __RightSidesState extends State<_RightSide> {
             child: Column(
               children: [
                 SizedBox(height: size.height * 0.08),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColor,
-                        ),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Theme.of(context).primaryColorLight,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const CustomBackButton(),
                 SizedBox(height: size.height * 0.05),
                 Row(
                   children: [

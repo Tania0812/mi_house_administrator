@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:mi_house_administrator/core/failure/failure.dart';
 import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
+import 'package:mi_house_administrator/core/util/app_state.dart';
+import 'package:mi_house_administrator/features/auth/models/auth_model.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
 import 'package:mi_house_administrator/features/auth/models/register_model.dart';
+import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
+import 'package:provider/provider.dart';
+
 
 enum AuthStates {
   initial,
@@ -17,9 +22,10 @@ class AuthProvider extends ChangeNotifier {
   final HttpHandler httpHandler;
   final Token token;
   bool isLoading = false;
+
   InitialRegisterArgs? initialRegisterArgs;
 
-  //TODO: CHANGE
+
   AuthStates state = AuthStates.notAuthenticated;
   AuthProvider({required this.token, required this.httpHandler});
 
@@ -27,11 +33,18 @@ class AuthProvider extends ChangeNotifier {
     initialRegisterArgs = args;
     notifyListeners();
   }
+  AuthModel? auth;
+  Future<Failure?> logout() async {
+    state = AuthStates.notAuthenticated;
+    notifyListeners();
+    Provider.of<HomeUiProvider>(appContext.getContext, listen: false).onChangeSelectedItem(0);
+  }
 
   Future<Failure?> login(LoginModel login) async {
     try {
       final res = await httpHandler.performPost('/login', login.toJson(), withToken: false);
-      token.saveToken(res['token'] as String);
+      auth = AuthModel.fromJson(res);
+      token.saveToken(auth!.token);
       state = AuthStates.authenticated;
       notifyListeners();
       return null;

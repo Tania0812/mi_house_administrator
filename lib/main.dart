@@ -8,6 +8,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mi_house_administrator/dependency_injection.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
+import 'package:mi_house_administrator/features/recepcion/recepcion_provider.dart';
+import 'package:mi_house_administrator/features/residents/residents_provider.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/auth/index_screen.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +31,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (ctx) => di<AuthProvider>()),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (ctx) => AuthProvider(httpHandler: di(), token: sl()),
+        ),
+        ChangeNotifierProvider<ResidentsProvider>(
+          create: (ctx) => ResidentsProvider(httpHandler: di(), token: sl()),
+        ),
+        ChangeNotifierProvider<RecepcionProvider>(
+          create: (ctx) => RecepcionProvider(httpHandler: di(), token: sl()),
+        ),
         ChangeNotifierProvider<HomeUiProvider>(create: (ctx) => HomeUiProvider()),
       ],
       child: MaterialApp(

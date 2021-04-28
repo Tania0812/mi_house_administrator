@@ -24,8 +24,8 @@ class MenuItem {
 
 final List<MenuItem> menuItems = [
   MenuItem(name: 'Inicio', icon: Icons.home),
-  MenuItem(name: 'Usuarios', icon: Icons.dashboard),
+  MenuItem(name: 'Residentes', icon: Icons.dashboard),
+  MenuItem(name: 'Recepcion', icon: Icons.settings_cell),
   MenuItem(name: 'Mensajes', icon: Icons.message),
-  MenuItem(name: 'Analitica', icon: Icons.analytics),
   MenuItem(name: 'Información', icon: Icons.info),
 ];

@@ -1,6 +1,8 @@
 include: package:lint/analysis_options_package.yaml
 
 analyzer:
+  exclude:
+    - lib/features/residents/models/residents_response.g.dart
   errors:
     todo: warning
 

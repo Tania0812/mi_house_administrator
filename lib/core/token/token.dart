@@ -19,8 +19,8 @@ class Token {
   }
 
   Future<void> saveToken(String token) async {
-    await dbClient.saveObject(value: 'token', key: token);
     this.token = token;
+    await dbClient.saveObject(value: 'token', key: token);
   }
 
   Future<void> updateToken(String token) async {
