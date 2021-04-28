@@ -16,6 +16,24 @@ class ResidentsProvider extends ChangeNotifier {
 
   ResidentsProvider({required this.httpHandler, required this.token});
 
+  Future<Failure?> updateResident(ResidentsModel residentsModel) async {
+    try {
+      await httpHandler.performPut(
+        '/residentes/editar',
+        residentsModel.toJson(),
+      );
+      fetchResidents();
+      notifyListeners();
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
   Future<Failure?> registerResident(ResidentsModel residentsModel) async {
     try {
       await httpHandler.performPost(

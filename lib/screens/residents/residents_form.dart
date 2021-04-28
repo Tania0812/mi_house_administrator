@@ -3,6 +3,7 @@ import 'package:mi_house_administrator/core/datetime/date_formatter.dart';
 import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/residents/models/residents_model.dart';
+import 'package:mi_house_administrator/features/residents/models/residents_response.dart';
 import 'package:mi_house_administrator/features/residents/residents_provider.dart';
 import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
 import 'package:provider/provider.dart';
@@ -60,10 +61,37 @@ class _ResidentFormState extends State<ResidentForm> {
   String? _documentType;
   String? _formattedDate;
   DateTime? _dateTime;
+  bool isNew = false;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      loadInitialData();
+    });
+  }
+
+  void loadInitialData() {
+    final resident = ModalRoute.of(context)!.settings.arguments as Residents?;
+    if (resident != null) {
+      _documentController.text = resident.documento;
+      _firstNameController.text = resident.nombres;
+      _lastNameController.text = resident.apellidos;
+      _nombreConjuntoController.text = resident.conjunto.nombre;
+      _emailController.text = resident.email;
+      _documentType = resident.tipoDoc;
+      _dateTime = resident.fechaNac;
+      DateFormatter.dateFormatted(resident.fechaNac).then(
+        (val) => setState(() => _formattedDate = val),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final resident = ModalRoute.of(context)!.settings.arguments as Residents?;
+    isNew = resident == null;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
       child: Form(
@@ -163,14 +191,14 @@ class _ResidentFormState extends State<ResidentForm> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Contraseña'),
               controller: _passwordController,
-              validator: TextValidators.passwordValidator,
+              validator: isNew ? TextValidators.passwordValidator : null,
             ),
             const SizedBox(height: 20),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Confirma la contraseña'),
               controller: _repeatedPasswordController,
-              //TODO: change validator to confirmPasswordValidator
-              validator: TextValidators.passwordValidator,
+              validator:
+                  isNew ? (v) => TextValidators.confirmPassword(v, _passwordController.text) : null,
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -179,7 +207,7 @@ class _ResidentFormState extends State<ResidentForm> {
               child: ElevatedButton(
                 onPressed: handleOnCreate,
                 style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-                child: const Text('Crear'),
+                child: Text(isNew ? 'Crear' : 'Actualizar'),
               ),
             ),
           ],
@@ -203,14 +231,17 @@ class _ResidentFormState extends State<ResidentForm> {
         repeatPassword: _repeatedPasswordController.text.trim(),
         tipoDoc: _documentType!,
       );
-
-      final res = await Provider.of<ResidentsProvider>(context, listen: false)
-          .registerResident(residentsModel);
+      final residentsProv = Provider.of<ResidentsProvider>(context, listen: false);
+      final res = isNew
+          ? await residentsProv.registerResident(residentsModel)
+          : await residentsProv.updateResident(residentsModel);
       if (res == null) {
         await CustomModals().showError(
-            message: 'Residente registrado exitosamente',
-            context: context,
-            title: 'Felicitaciones');
+          message:
+              isNew ? 'Residente registrado exitosamente' : 'Residente actualizado exitosamente',
+          context: context,
+          title: 'Felicitaciones',
+        );
         Navigator.of(context).pop();
         return;
       }

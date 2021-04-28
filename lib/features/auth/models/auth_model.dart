@@ -34,9 +34,9 @@ class AuthModel {
 class Conjunto {
   final int id;
   final String nombre;
-  final String direccion;
+  final String? direccion;
 
-  Conjunto({required this.id, required this.nombre, required this.direccion});
+  Conjunto({required this.id, required this.nombre, this.direccion});
   factory Conjunto.fromJson(Map<String, dynamic> json) => _$ConjuntoFromJson(json);
 
   Map<String, dynamic> toJson() => _$ConjuntoToJson(this);

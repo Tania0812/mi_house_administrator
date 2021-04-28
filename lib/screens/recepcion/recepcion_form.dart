@@ -185,8 +185,8 @@ class _RecepcionFormState extends State<RecepcionForm> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Confirma la contraseña'),
               controller: _repeatedPasswordController,
-              //TODO: change validator to confirmPasswordValidator
-              validator: isNew ? TextValidators.passwordValidator : null,
+              validator:
+                  isNew ? (v) => TextValidators.confirmPassword(v, _passwordController.text) : null,
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -195,7 +195,7 @@ class _RecepcionFormState extends State<RecepcionForm> {
               child: ElevatedButton(
                 onPressed: handleOnCreate,
                 style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-                child: const Text('Crear'),
+                child: Text(isNew ? 'Crear' : 'Actualizar'),
               ),
             ),
             const SizedBox(height: 40),

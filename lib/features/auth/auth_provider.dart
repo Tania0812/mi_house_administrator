@@ -24,16 +24,16 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
 
   InitialRegisterArgs? initialRegisterArgs;
-
-
+  AuthModel? auth;
   AuthStates state = AuthStates.notAuthenticated;
+  
   AuthProvider({required this.token, required this.httpHandler});
 
   void onRegisterArgs(InitialRegisterArgs args) {
     initialRegisterArgs = args;
     notifyListeners();
   }
-  AuthModel? auth;
+  
   Future<Failure?> logout() async {
     state = AuthStates.notAuthenticated;
     notifyListeners();

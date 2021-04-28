@@ -84,10 +84,12 @@ class UsersTab extends StatelessWidget {
                               const CustomText(text: 'Activo'),
                               Row(
                                 children: [
-                                  //TODO: implement onPressed
                                   IconButton(
                                     icon: const Icon(Icons.edit),
-                                    onPressed: () {},
+                                    onPressed: () => Navigator.of(context).pushNamed(
+                                      ResidentsFormScreen.route,
+                                      arguments: e,
+                                    ),
                                     color: Theme.of(context).primaryColor,
                                   ),
                                   IconButton(

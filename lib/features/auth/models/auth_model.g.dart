@@ -32,7 +32,7 @@ Conjunto _$ConjuntoFromJson(Map<String, dynamic> json) {
   return Conjunto(
     id: json['id'] as int,
     nombre: json['nombre'] as String,
-    direccion: json['direccion'] as String,
+    direccion: json['direccion'] as String?,
   );
 }
 

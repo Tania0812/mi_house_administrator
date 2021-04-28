@@ -16,7 +16,8 @@ ResidentsResponse _$ResidentsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ResidentsResponseToJson(ResidentsResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ResidentsResponseToJson(ResidentsResponse instance) =>
+    <String, dynamic>{
       'status': instance.status,
       'message': instance.message,
       'data': instance.data,
