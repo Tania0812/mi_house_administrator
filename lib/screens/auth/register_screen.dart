@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_house_administrator/core/datetime/date_formatter.dart';
 import 'package:mi_house_administrator/core/modals/modals.dart';
 import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
@@ -6,7 +7,6 @@ import 'package:mi_house_administrator/features/auth/models/register_model.dart'
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
-
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -63,7 +63,7 @@ class __RightSidesState extends State<_RightSide> {
   String? _documentType;
   DateTime? selectedDate;
   bool isLoading = false;
-
+  DateTime? _datetime;
   @override
   Widget build(BuildContext context) {
     final args = Provider.of<AuthProvider>(context).initialRegisterArgs!;
@@ -168,7 +168,8 @@ class __RightSidesState extends State<_RightSide> {
                       lastDate: actualDate.subtract(const Duration(days: 6570)),
                     );
                     if (date != null) {
-                      _dateController.text = date.toIso8601String();
+                      _datetime = date;
+                      _dateController.text = await DateFormatter.dateFormatted(date);
                     }
                   },
                 ),
@@ -240,10 +241,11 @@ class __RightSidesState extends State<_RightSide> {
           documento: _documentController.text.trim(),
           nombres: _nameController.text.trim(),
           apellidos: _lastnameController.text.trim(),
-          fechaNac: _dateController.text.trim(),
+          fechaNac: _datetime!.toIso8601String(),
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
           repeatPassword: _repeatPasswordController.text.trim(),
+          //TODO: change name
           nombreConjunto: 'wedñkigfPÑIEBO',
         ),
       );

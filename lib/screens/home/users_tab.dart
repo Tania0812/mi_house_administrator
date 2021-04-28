@@ -14,42 +14,42 @@ class UsersTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = Responsive.homeWidth(context);
     final residentsProv = Provider.of<ResidentsProvider>(context);
-    return FutureBuilder(
-        future: residentsProv.fetchResidents(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if ((snapshot.data as Failure?) != null) {
-            return Center(child: Text((snapshot.data! as Failure).message));
-          }
-          return Column(
+    return Column(
+      children: [
+        const CustomAppBar(),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          width: width,
+          height: 50,
+          child: Row(
             children: [
-              const CustomAppBar(),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 20),
-                width: width,
-                height: 50,
-                child: Row(
-                  children: [
-                    const Text(
-                      'Residentes',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      height: 40,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.of(context).pushNamed(ResidentsFormScreen.route),
-                        style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
-                        child: const Text('+ Nuevo residente'),
-                      ),
-                    ),
-                  ],
+              const Text(
+                'Residentes',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+              ),
+              const Spacer(),
+              SizedBox(
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pushNamed(ResidentsFormScreen.route),
+                  style: ElevatedButton.styleFrom(primary: Theme.of(context).accentColor),
+                  child: const Text('+ Nuevo residente'),
                 ),
               ),
-              Expanded(
-                child: Table(
+            ],
+          ),
+        ),
+        Expanded(
+          child: FutureBuilder(
+              future: residentsProv.fetchResidents(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if ((snapshot.data as Failure?) != null) {
+                  return Center(child: Text((snapshot.data! as Failure).message));
+                }
+                return Table(
                   columnWidths: const {
                     0: FractionColumnWidth(0.05),
                     3: FractionColumnWidth(0.06),
@@ -104,10 +104,10 @@ class UsersTab extends StatelessWidget {
                         )
                         .toList()
                   ],
-                ),
-              )
-            ],
-          );
-        });
+                );
+              }),
+        ),
+      ],
+    );
   }
 }
