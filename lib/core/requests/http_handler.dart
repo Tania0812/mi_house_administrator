@@ -140,7 +140,6 @@ class HttpHandlerImpl implements HttpHandler {
         throw Failure(
           message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
         );
-
       }
       return decodedRes;
     } catch (_) {
@@ -154,6 +153,11 @@ class HttpHandlerImpl implements HttpHandler {
     final headersBase = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": 'true',
+      "Access-Control-Allow-Headers":
+          "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+      "Access-Control-Allow-Methods": "GET, HEAD, POST, PUT, DELETE, OPTIONS",
     };
     if (withToken) {
       if (token.token == null) {
