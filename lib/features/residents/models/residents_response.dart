@@ -52,15 +52,16 @@ class Residents {
   final String? bloque;
   final DateTime fechaNac;
   final String email;
-  final DateTime createdAt;
-  final String password;
+  final DateTime? createdAt;
+  final String? password;
   final String? turno;
   final List<dynamic> vivienda;
-  final List<dynamic> reportes;
-  final List<dynamic> comunicados;
-  final List<dynamic> reservas;
-  final Conjunto conjunto;
-  final List<Role> roles;
+  final List<dynamic>? reportes;
+  final List<dynamic>? comunicados;
+  final List<dynamic>? reservas;
+  @JsonKey(name: 'conjuntoNombre')
+  final String conjunto;
+  final List<Role>? roles;
 
   factory Residents.fromJson(Map<String, dynamic> json) => _$ResidentsFromJson(json);
 

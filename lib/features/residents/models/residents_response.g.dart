@@ -16,8 +16,7 @@ ResidentsResponse _$ResidentsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ResidentsResponseToJson(ResidentsResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ResidentsResponseToJson(ResidentsResponse instance) => <String, dynamic>{
       'status': instance.status,
       'message': instance.message,
       'data': instance.data,
@@ -34,16 +33,16 @@ Residents _$ResidentsFromJson(Map<String, dynamic> json) {
     bloque: json['bloque'] as String?,
     fechaNac: DateTime.parse(json['fechaNac'] as String),
     email: json['email'] as String,
-    createdAt: DateTime.parse(json['createdAt'] as String),
-    password: json['password'] as String,
+    createdAt: json['createdAt'] == null ? null : DateTime.parse(json['createdAt'] as String),
+    password: json['password'] as String?,
     turno: json['turno'] as String?,
-    vivienda: json['vivienda'] as List<dynamic>,
-    reportes: json['reportes'] as List<dynamic>,
-    comunicados: json['comunicados'] as List<dynamic>,
-    reservas: json['reservas'] as List<dynamic>,
-    conjunto: Conjunto.fromJson(json['conjunto'] as Map<String, dynamic>),
-    roles: (json['roles'] as List<dynamic>)
-        .map((e) => Role.fromJson(e as Map<String, dynamic>))
+    vivienda: (json['vivienda'] ?? []) as List<dynamic>,
+    reportes: json['reportes'] as List<dynamic>?,
+    comunicados: json['comunicados'] as List<dynamic>?,
+    reservas: json['reservas'] as List<dynamic>?,
+    conjunto: json['conjuntoNombre'] as String,
+    roles: (json['roles'] as List<dynamic>?)
+        ?.map((e) => Role.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -58,14 +57,14 @@ Map<String, dynamic> _$ResidentsToJson(Residents instance) => <String, dynamic>{
       'bloque': instance.bloque,
       'fechaNac': instance.fechaNac.toIso8601String(),
       'email': instance.email,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
       'password': instance.password,
       'turno': instance.turno,
       'vivienda': instance.vivienda,
       'reportes': instance.reportes,
       'comunicados': instance.comunicados,
       'reservas': instance.reservas,
-      'conjunto': instance.conjunto,
+      'conjuntoNombre': instance.conjunto,
       'roles': instance.roles,
     };
 

@@ -76,7 +76,7 @@ class _ResidentFormState extends State<ResidentForm> {
       _documentController.text = resident.documento;
       _firstNameController.text = resident.nombres;
       _lastNameController.text = resident.apellidos;
-      _nombreConjuntoController.text = resident.conjunto.nombre;
+      _nombreConjuntoController.text = resident.conjunto;
       _emailController.text = resident.email;
       _documentType = resident.tipoDoc;
       _dateTime = resident.fechaNac;
