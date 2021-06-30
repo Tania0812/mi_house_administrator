@@ -4,6 +4,7 @@ import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
+import 'package:mi_house_administrator/screens/auth/conjuntoregister_screen.dart';
 import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 import 'package:mi_house_administrator/widgets/buttons/social_network_icon_button.dart';
 import 'package:provider/provider.dart';
@@ -210,8 +211,7 @@ class __LeftSideState extends State<_LeftSide> {
           confirmPassword: _repeatPasswordController.text.trim(),
         ),
       );
-      Navigator.of(context).pushNamed(RegisterScreen.route);
-
+      Navigator.of(context).pushNamed(ConjuntoRegisterScreen.route);
       return;
     }
   }

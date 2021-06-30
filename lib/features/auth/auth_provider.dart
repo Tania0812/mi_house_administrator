@@ -6,11 +6,11 @@ import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
 import 'package:mi_house_administrator/core/util/app_state.dart';
 import 'package:mi_house_administrator/features/auth/models/auth_model.dart';
+import 'package:mi_house_administrator/features/auth/models/conjuntoregister_model.dart';
 import 'package:mi_house_administrator/features/auth/models/login_model.dart';
 import 'package:mi_house_administrator/features/auth/models/register_model.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:provider/provider.dart';
-
 
 enum AuthStates {
   initial,
@@ -26,14 +26,14 @@ class AuthProvider extends ChangeNotifier {
   InitialRegisterArgs? initialRegisterArgs;
   AuthModel? auth;
   AuthStates state = AuthStates.notAuthenticated;
-  
+
   AuthProvider({required this.token, required this.httpHandler});
 
   void onRegisterArgs(InitialRegisterArgs args) {
     initialRegisterArgs = args;
     notifyListeners();
   }
-  
+
   Future<Failure?> logout() async {
     state = AuthStates.notAuthenticated;
     notifyListeners();
@@ -70,6 +70,22 @@ class AuthProvider extends ChangeNotifier {
     } on SocketException catch (_) {
       return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
     } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
+  Future<Failure?> conjuntoregister(ConjuntoRegisterModel conjuntoregister) async {
+    try {
+      await httpHandler.performPost(
+        '/conjunto/newConjunto',
+        conjuntoregister.toJson(),
+        //TODO: Revisa sebas por fa :C
+      );
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e){
       return Failure(message: e.toString());
     }
   }
