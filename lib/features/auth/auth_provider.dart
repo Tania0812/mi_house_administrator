@@ -79,13 +79,14 @@ class AuthProvider extends ChangeNotifier {
       await httpHandler.performPost(
         '/conjunto/newConjunto',
         conjuntoregister.toJson(),
+        withToken: false,
         //TODO: Revisa sebas por fa :C
       );
     } on Failure catch (e) {
       return e;
     } on SocketException catch (_) {
       return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
-    } catch (e){
+    } catch (e) {
       return Failure(message: e.toString());
     }
   }
