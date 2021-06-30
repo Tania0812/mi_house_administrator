@@ -245,8 +245,7 @@ class __RightSidesState extends State<_RightSide> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
           repeatPassword: _repeatPasswordController.text.trim(),
-          //TODO: change name
-          nombreConjunto: 'wedñkigfPÑIEBO',
+          nombreConjunto: 'Altos de Chanchito',
         ),
       );
       setState(() => isLoading = false);

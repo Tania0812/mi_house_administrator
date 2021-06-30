@@ -24,18 +24,18 @@ Map<String, dynamic> _$StatsByMonthResponseToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) {
   return Data(
-    ene: json['ene'] as String,
-    feb: json['feb'] as String,
-    mar: json['mar'] as String,
-    abr: json['abr'] as String,
-    may: json['may'] as String,
-    jun: json['jun'] as String,
-    jul: json['jul'] as String,
-    ago: json['ago'] as String,
-    sep: json['sep'] as String,
-    oct: json['oct'] as String,
-    nov: json['nov'] as String,
-    dic: json['dic'] as String,
+    ene: json['ene'] as String?,
+    feb: json['feb'] as String?,
+    mar: json['mar'] as String?,
+    abr: json['abr'] as String?,
+    may: json['may'] as String?,
+    jun: json['jun'] as String?,
+    jul: json['jul'] as String?,
+    ago: json['ago'] as String?,
+    sep: json['sep'] as String?,
+    oct: json['oct'] as String?,
+    nov: json['nov'] as String?,
+    dic: json['dic'] as String?,
   );
 }
 

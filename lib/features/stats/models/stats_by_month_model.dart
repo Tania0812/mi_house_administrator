@@ -23,37 +23,37 @@ class StatsByMonthResponse {
 @JsonSerializable()
 class Data {
   Data({
-    required this.ene,
-    required this.feb,
-    required this.mar,
-    required this.abr,
-    required this.may,
-    required this.jun,
-    required this.jul,
-    required this.ago,
-    required this.sep,
-    required this.oct,
-    required this.nov,
-    required this.dic,
+    this.ene = '0',
+    this.feb = '0',
+    this.mar = '0',
+    this.abr = '0',
+    this.may = '0',
+    this.jun = '0',
+    this.jul = '0',
+    this.ago = '0',
+    this.sep = '0',
+    this.oct = '0',
+    this.nov = '0',
+    this.dic = '0',
   });
 
-  final String ene;
-  final String feb;
-  final String mar;
-  final String abr;
-  final String may;
-  final String jun;
-  final String jul;
-  final String ago;
-  final String sep;
-  final String oct;
-  final String nov;
-  final String dic;
+  final String? ene;
+  final String? feb;
+  final String? mar;
+  final String? abr;
+  final String? may;
+  final String? jun;
+  final String? jul;
+  final String? ago;
+  final String? sep;
+  final String? oct;
+  final String? nov;
+  final String? dic;
 
   int getMaxValue() {
     int max = 0;
     for (final i in [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]) {
-      final val = int.tryParse(i)!;
+      final val = int.tryParse(i ?? '0')!;
       if (val > max) {
         max = val;
       }
@@ -63,18 +63,18 @@ class Data {
 
   List<GraphValues> getByMonthNumber() {
     return [
-      GraphValues(numberMonth: 1, users: int.tryParse(ene)!),
-      GraphValues(numberMonth: 2, users: int.tryParse(feb)!),
-      GraphValues(numberMonth: 3, users: int.tryParse(mar)!),
-      GraphValues(numberMonth: 4, users: int.tryParse(abr)!),
-      GraphValues(numberMonth: 5, users: int.tryParse(may)!),
-      GraphValues(numberMonth: 6, users: int.tryParse(jun)!),
-      GraphValues(numberMonth: 7, users: int.tryParse(jul)!),
-      GraphValues(numberMonth: 8, users: int.tryParse(ago)!),
-      GraphValues(numberMonth: 9, users: int.tryParse(sep)!),
-      GraphValues(numberMonth: 10, users: int.tryParse(oct)!),
-      GraphValues(numberMonth: 11, users: int.tryParse(nov)!),
-      GraphValues(numberMonth: 12, users: int.tryParse(dic)!),
+      GraphValues(numberMonth: 1, users: int.tryParse(ene ?? '0')!),
+      GraphValues(numberMonth: 2, users: int.tryParse(feb ?? '0')!),
+      GraphValues(numberMonth: 3, users: int.tryParse(mar ?? '0')!),
+      GraphValues(numberMonth: 4, users: int.tryParse(abr ?? '0')!),
+      GraphValues(numberMonth: 5, users: int.tryParse(may ?? '0')!),
+      GraphValues(numberMonth: 6, users: int.tryParse(jun ?? '0')!),
+      GraphValues(numberMonth: 7, users: int.tryParse(jul ?? '0')!),
+      GraphValues(numberMonth: 8, users: int.tryParse(ago ?? '0')!),
+      GraphValues(numberMonth: 9, users: int.tryParse(sep ?? '0')!),
+      GraphValues(numberMonth: 10, users: int.tryParse(oct ?? '0')!),
+      GraphValues(numberMonth: 11, users: int.tryParse(nov ?? '0')!),
+      GraphValues(numberMonth: 12, users: int.tryParse(dic ?? '0')!),
     ];
   }
 
