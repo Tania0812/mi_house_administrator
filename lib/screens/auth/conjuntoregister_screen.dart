@@ -83,7 +83,7 @@ class __RightSidesState extends State<_RightSide> {
                                 const CustomBackButton(),
                                 const SizedBox(width: 20.0),
                                 Text(
-                                  'Registra tu conjunto', 
+                                  'Registra tu conjunto',
                                   style: TextStyle(
                                     color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold,
@@ -101,7 +101,8 @@ class __RightSidesState extends State<_RightSide> {
                               decoration: decoration(
                                 '  Nombre conjunto',
                                 const Icon(
-                                  Icons.assignment_ind, size: 22,
+                                  Icons.assignment_ind,
+                                  size: 22,
                                 ),
                               ),
                             ),
@@ -114,7 +115,8 @@ class __RightSidesState extends State<_RightSide> {
                               decoration: decoration(
                                 '  Direccion',
                                 const Icon(
-                                  FontAwesomeIcons.directions, size: 20,
+                                  FontAwesomeIcons.directions,
+                                  size: 20,
                                 ),
                               ),
                             ),
@@ -127,7 +129,8 @@ class __RightSidesState extends State<_RightSide> {
                               decoration: decoration(
                                 '  Cantidad de bloques',
                                 const Icon(
-                                  FontAwesomeIcons.city, size: 18,
+                                  FontAwesomeIcons.city,
+                                  size: 18,
                                 ),
                               ),
                             ),
@@ -139,9 +142,7 @@ class __RightSidesState extends State<_RightSide> {
                               style: const TextStyle(color: Colors.black),
                               decoration: decoration(
                                 '  Apartamentos por bloque',
-                                const Icon(
-                                  Icons.business_rounded
-                                ),
+                                const Icon(Icons.business_rounded),
                               ),
                             ),
                             const SizedBox(height: 20.0),
@@ -160,13 +161,17 @@ class __RightSidesState extends State<_RightSide> {
                             const SizedBox(height: 20.0),
                             TextFormField(
                               controller: _pisosController,
-                              validator: (_pisosControlelr) =>TextValidators.confirmAptos(_cantAptosPorBloqueController.text, _aptosPorPisoController.text, _pisosController.text),
+                              validator: (_pisosControlelr) => TextValidators.confirmAptos(
+                                  _cantAptosPorBloqueController.text,
+                                  _aptosPorPisoController.text,
+                                  _pisosController.text),
                               keyboardType: TextInputType.number,
                               style: const TextStyle(color: Colors.black),
                               decoration: decoration(
                                 '  Pisos',
                                 const Icon(
-                                  FontAwesomeIcons.solidBuilding,size: 20,
+                                  FontAwesomeIcons.solidBuilding,
+                                  size: 20,
                                 ),
                               ),
                             ),
@@ -175,10 +180,12 @@ class __RightSidesState extends State<_RightSide> {
                               width: double.maxFinite,
                               height: 45,
                               child: ElevatedButton(
-                                onPressed: (){handleOnConjuntoRegister();}, 
-                                style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-                                child: const Text('Registrar')
-                              ),
+                                  onPressed: () {
+                                    handleOnConjuntoRegister();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).primaryColor),
+                                  child: const Text('Registrar')),
                             ),
                           ],
                         ),
@@ -211,16 +218,16 @@ class __RightSidesState extends State<_RightSide> {
 
   Future<void> handleOnConjuntoRegister() async {
     if (_formController.currentState!.validate()) {
-      final res = await Provider.of<AuthProvider>(context, listen: false).conjuntoregister(
-        ConjuntoRegisterModel(
-          nombre: _nombreController.text.trim(),
-          direccion: _direccionController.text.trim(),
-          cantBloques: _cantBloquesController.text.trim(),
-          cantAptosPorBloque: _cantAptosPorBloqueController.text.trim(),
-          aptosPorPiso: _aptosPorPisoController.text.trim(),
-          pisos: _pisosController.text.trim(),
-        ),
+      final conjunto = ConjuntoRegisterModel(
+        nombre: _nombreController.text.trim(),
+        direccion: _direccionController.text.trim(),
+        cantBloques: _cantBloquesController.text.trim(),
+        cantAptosPorBloque: _cantAptosPorBloqueController.text.trim(),
+        aptosPorPiso: _aptosPorPisoController.text.trim(),
+        pisos: _pisosController.text.trim(),
       );
+      final res =
+          await Provider.of<AuthProvider>(context, listen: false).conjuntoregister(conjunto);
       if (res == null) {
         CustomModals().showWellDone(
           message: 'Conjunto Registrado',

@@ -5,6 +5,7 @@ import 'package:mi_house_administrator/core/validators/text_validators.dart';
 import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/auth/models/register_model.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
+import 'package:mi_house_administrator/screens/auth/index_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mi_house_administrator/widgets/buttons/back_buttom.dart';
 
@@ -57,6 +58,7 @@ class __RightSidesState extends State<_RightSide> {
   final _nameController = TextEditingController();
   final _lastnameController = TextEditingController();
   final _dateController = TextEditingController();
+  final _conjuntoController = TextEditingController();
 
   final actualDate = DateTime.now();
   String aux = '';
@@ -64,6 +66,16 @@ class __RightSidesState extends State<_RightSide> {
   DateTime? selectedDate;
   bool isLoading = false;
   DateTime? _datetime;
+
+  @override
+  void initState() {
+    super.initState();
+    final authProv = Provider.of<AuthProvider>(context, listen: false);
+    if (authProv.selectedConjunto != null) {
+      _conjuntoController.text = authProv.selectedConjunto!.nombre;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = Provider.of<AuthProvider>(context).initialRegisterArgs!;
@@ -150,6 +162,15 @@ class __RightSidesState extends State<_RightSide> {
                   keyboardType: TextInputType.name,
                   decoration: const InputDecoration(
                     labelText: 'Apellidos',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _conjuntoController,
+                  validator: TextValidators.nameValidator,
+                  keyboardType: TextInputType.name,
+                  decoration: const InputDecoration(
+                    labelText: 'Conjunto',
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -245,7 +266,7 @@ class __RightSidesState extends State<_RightSide> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
           repeatPassword: _repeatPasswordController.text.trim(),
-          nombreConjunto: 'Altos de Chanchito',
+          nombreConjunto: _conjuntoController.text,
         ),
       );
       setState(() => isLoading = false);
@@ -259,7 +280,7 @@ class __RightSidesState extends State<_RightSide> {
         onPressed: () {
           Provider.of<HomeUiProvider>(context, listen: false).onChangeIsLogin(newValue: true);
           Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          Navigator.of(context).popUntil(ModalRoute.withName(IndexScreen.route));
         },
       );
     }

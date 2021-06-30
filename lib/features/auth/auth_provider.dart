@@ -22,7 +22,7 @@ class AuthProvider extends ChangeNotifier {
   final HttpHandler httpHandler;
   final Token token;
   bool isLoading = false;
-
+  ConjuntoRegisterModel? selectedConjunto;
   InitialRegisterArgs? initialRegisterArgs;
   AuthModel? auth;
   AuthStates state = AuthStates.notAuthenticated;
@@ -76,11 +76,11 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Failure?> conjuntoregister(ConjuntoRegisterModel conjuntoregister) async {
     try {
+      selectedConjunto = conjuntoregister;
       await httpHandler.performPost(
         '/conjunto/newConjunto',
         conjuntoregister.toJson(),
         withToken: false,
-        //TODO: Revisa sebas por fa :C
       );
     } on Failure catch (e) {
       return e;
