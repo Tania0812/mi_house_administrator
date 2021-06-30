@@ -80,4 +80,54 @@ class TextValidators {
     final RegExp regex = RegExp(pattern);
     return !regex.hasMatch(value);
   }
+
+  static String? confirmAptos(String? cantAptosBloques, String? aptosPiso, String? pisos){
+    final ca = int.parse(cantAptosBloques!);
+    final app=int.parse(aptosPiso!);
+    final p = int.parse(pisos!);
+    if (pisos.isEmpty) {
+      return 'Este campo debe contener numeros';
+    }
+    if (ca != (app*p)){
+      return 'La cantidad de apartamentos no corresponde';
+
+    }
+    return null;
+  }
+
+  static String? nameConjValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Ingresa el nombre del conjunto';
+    }
+    return null;
+  }
+
+  static String? directionValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Ingresa la direccion del conjunto';
+    }
+    return null;
+  }
+
+  static String? cantBloqValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Ingresa la cantidad de bloques';
+    }
+    return null;
+  }
+
+  static String? cantAptBloqValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Ingresa la cantidad de apartamentos por bloque';
+    }
+    return null;
+  }
+
+  static String? aptPValidator(String? value) {
+    if (value!.isEmpty) {
+      return 'Ingresa la cantidad de apartamentos por piso';
+    }
+    return null;
+  }
+
 }
