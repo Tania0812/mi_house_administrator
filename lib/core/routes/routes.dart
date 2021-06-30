@@ -5,6 +5,7 @@ import 'package:mi_house_administrator/screens/auth/register_screen.dart';
 import 'package:mi_house_administrator/screens/home/home_screen.dart';
 import 'package:mi_house_administrator/screens/recepcion/recepcion_form.dart';
 import 'package:mi_house_administrator/screens/residents/residents_form.dart';
+import 'package:mi_house_administrator/screens/spaces/spaces_form.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   IndexScreen.route: (ctx) => const IndexScreen(),
@@ -13,4 +14,5 @@ Map<String, Widget Function(BuildContext)> routes = {
   HomeScreen.route: (ctx) => const HomeScreen(),
   ResidentsFormScreen.route: (ctx) => const ResidentsFormScreen(),
   RecepcionFormScreen.route: (ctx) => const RecepcionFormScreen(),
+  SpacesFormScreen.route: (ctx) => const SpacesFormScreen(),
 };

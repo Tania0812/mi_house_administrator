@@ -3,6 +3,7 @@ import 'package:mi_house_administrator/features/auth/auth_provider.dart';
 import 'package:mi_house_administrator/features/ui/home_ui_provider.dart';
 import 'package:mi_house_administrator/screens/home/home_tab.dart';
 import 'package:mi_house_administrator/screens/home/recepcion_tab.dart';
+import 'package:mi_house_administrator/screens/home/spaces_tab.dart';
 import 'package:mi_house_administrator/screens/home/users_tab.dart';
 import 'package:provider/provider.dart';
 
@@ -98,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   HomeTab(),
                   UsersTab(),
                   RecepcionTab(),
-                  Text('4'),
+                  SpacesTab(),
                   Text('5'),
                 ],
               ),

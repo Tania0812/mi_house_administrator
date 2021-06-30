@@ -45,7 +45,7 @@ class HttpHandlerImpl implements HttpHandler {
         Uri.parse('${ApiConstants.baseUrl}$endpoint'),
         headers: getHeaders(withToken: withToken),
       );
-      final decodedRes = json.decode(res.body) as Map<String, dynamic>;
+      final decodedRes = json.decode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
       if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(
           message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
@@ -70,7 +70,7 @@ class HttpHandlerImpl implements HttpHandler {
         headers: getHeaders(withToken: withToken),
         body: json.encode(body),
       );
-      final decodedRes = json.decode(res.body) as Map<String, dynamic>;
+      final decodedRes = json.decode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
       printLogs(
           response: res.body,
           type: 'DELETE',
@@ -104,7 +104,7 @@ class HttpHandlerImpl implements HttpHandler {
           endpoint: endpoint,
           statusCode: res.statusCode,
           body: body.toString());
-      final decodedRes = json.decode(res.body) as Map<String, dynamic>;
+      final decodedRes = json.decode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
       if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(
           message: (decodedRes['message'] as String?) ?? 'Ha ocurrido un error, intenta mas tarde',
@@ -134,7 +134,7 @@ class HttpHandlerImpl implements HttpHandler {
           endpoint: endpoint,
           statusCode: res.statusCode,
           body: body.toString());
-      final decodedRes = json.decode(res.body) as Map<String, dynamic>;
+      final decodedRes = json.decode(utf8.decode(res.bodyBytes)) as Map<String, dynamic>;
 
       if (isFailed(res.statusCode) || decodedRes['status'] == 'BAD') {
         throw Failure(

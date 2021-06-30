@@ -52,14 +52,15 @@ class Recepcion {
   final String? bloque;
   final DateTime fechaNac;
   final String email;
-  final DateTime createdAt;
-  final String password;
+  final DateTime? createdAt;
+  final String? password;
   final String? turno;
   final List vivienda;
-  final List reportes;
-  final List comunicados;
-  final List reservas;
-  final Conjunto conjunto;
+  final List? reportes;
+  final List? comunicados;
+  final List? reservas;
+  @JsonKey(name: 'conjuntoNombre')
+  final String conjunto;
   final List<Role> roles;
 
   factory Recepcion.fromJson(Map<String, dynamic> json) => _$RecepcionFromJson(json);

@@ -6,12 +6,15 @@ import 'package:mi_house_administrator/core/requests/http_handler.dart';
 import 'package:mi_house_administrator/core/token/token.dart';
 import 'package:mi_house_administrator/features/residents/models/residents_model.dart';
 import 'package:mi_house_administrator/features/residents/models/residents_response.dart';
+import 'package:mi_house_administrator/features/residents/models/space_model.dart';
+import 'package:mi_house_administrator/features/residents/models/spaces_response.dart';
 import 'package:mi_house_administrator/features/stats/models/stats_by_month_model.dart';
 
 class ResidentsProvider extends ChangeNotifier {
   final HttpHandler httpHandler;
   final Token token;
   ResidentsResponse? residentsResponse;
+  SpacesResponse? spacesResponse;
   StatsByMonthResponse? statsByMonth;
 
   ResidentsProvider({required this.httpHandler, required this.token});
@@ -23,6 +26,24 @@ class ResidentsProvider extends ChangeNotifier {
         residentsModel.toJson(),
       );
       fetchResidents();
+      notifyListeners();
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
+  Future<Failure?> updateSpace(SpacesModel residentsModel) async {
+    try {
+      await httpHandler.performPut(
+        '/conjunto/editEspacio',
+        residentsModel.toJson(),
+      );
+      fetchSpaces(residentsModel.conjunto);
       notifyListeners();
       return null;
     } on Failure catch (e) {
@@ -53,10 +74,43 @@ class ResidentsProvider extends ChangeNotifier {
     }
   }
 
+  Future<Failure?> registerSpace(SpacesModel residentsModel) async {
+    try {
+      await httpHandler.performPost(
+        '/conjunto/newEspacio',
+        residentsModel.toJson(),
+      );
+      fetchSpaces(residentsModel.conjunto);
+      notifyListeners();
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
   Future<Failure?> fetchResidents() async {
     try {
       final res = await httpHandler.performGet('/residentes/lista');
       residentsResponse = ResidentsResponse.fromJson(res);
+      return null;
+    } on Failure catch (e) {
+      return e;
+    } on SocketException catch (_) {
+      return Failure(message: 'Ha ocurrido un problema, intentalo mas tarde');
+    } catch (e) {
+      return Failure(message: e.toString());
+    }
+  }
+
+  Future<Failure?> fetchSpaces(String nombreConjunto) async {
+    try {
+      final res = await httpHandler
+          .performPost('/conjunto/listaEspacios', {"nombreConjunto": nombreConjunto});
+      spacesResponse = SpacesResponse.fromJson(res);
       return null;
     } on Failure catch (e) {
       return e;

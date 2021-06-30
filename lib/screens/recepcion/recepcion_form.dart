@@ -74,7 +74,7 @@ class _RecepcionFormState extends State<RecepcionForm> {
       _documentController.text = recepcion.documento;
       _firstNameController.text = recepcion.nombres;
       _lastNameController.text = recepcion.apellidos;
-      _nombreConjuntoController.text = recepcion.conjunto.nombre;
+      _nombreConjuntoController.text = recepcion.conjunto;
       _emailController.text = recepcion.email;
       _documentType = recepcion.tipoDoc;
       _dateTime = recepcion.fechaNac;
